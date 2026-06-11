@@ -7,826 +7,844 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <title>Hatti Family Vault</title>
 <style>
-:root{
-  --bg:#0d1117;--surface:#161b22;--card:#1c2333;--border:#30363d;
-  --gold:#d4a017;--gold-dim:#8a6610;--gold-glow:#f0c040;
-  --text:#e6edf3;--muted:#8b949e;--danger:#f85149;--warn:#e3b341;--ok:#3fb950;--blue:#58a6ff;
-  --r:12px;
-}
+:root{--bg:#0d1117;--surface:#161b22;--card:#1c2333;--border:#30363d;--gold:#d4a017;--gdim:#8a6610;--glow:#f0c040;--text:#e6edf3;--muted:#8b949e;--danger:#f85149;--warn:#e3b341;--ok:#3fb950;--blue:#58a6ff;--r:12px;}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;font-size:15px;overflow-x:hidden;}
-
 #splash{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:14px;}
-.vault-logo{font-size:56px;animation:pulse 2s infinite;}
+.vlogo{font-size:56px;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{filter:drop-shadow(0 0 8px rgba(212,160,23,.4));}50%{filter:drop-shadow(0 0 24px rgba(212,160,23,.9));}}
-#splash h1{font-size:24px;font-weight:800;color:var(--gold-glow);}
+#splash h1{font-size:24px;font-weight:800;color:var(--glow);}
 #splash p{color:var(--muted);font-size:13px;}
-.loader-bar{width:120px;height:3px;background:var(--border);border-radius:3px;overflow:hidden;}
-.loader-bar::after{content:'';display:block;width:40%;height:100%;background:var(--gold);border-radius:3px;animation:lb 1.2s ease-in-out infinite;}
+.lbar{width:120px;height:3px;background:var(--border);border-radius:3px;overflow:hidden;}
+.lbar::after{content:'';display:block;width:40%;height:100%;background:var(--gold);border-radius:3px;animation:lb 1.2s ease-in-out infinite;}
 @keyframes lb{0%{margin-left:0;}50%{margin-left:60%;}100%{margin-left:0;}}
-
-#pin-screen{display:none;min-height:100vh;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:radial-gradient(ellipse at 50% 0%,rgba(212,160,23,.07),transparent 70%);}
-.pin-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px 24px;max-width:340px;width:100%;text-align:center;}
-.pin-card h2{font-size:20px;font-weight:800;margin-bottom:4px;color:var(--gold-glow);}
-.pin-card .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
-.member-select{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
-.member-btn{background:var(--card);border:2px solid var(--border);border-radius:12px;padding:12px 8px;cursor:pointer;transition:all .18s;display:flex;flex-direction:column;align-items:center;gap:5px;}
-.member-btn.selected{border-color:var(--gold);background:rgba(212,160,23,.08);}
-.mb-em{font-size:28px;}
-.mb-name{font-size:13px;font-weight:700;color:var(--text);}
-.mb-role{font-size:10px;color:var(--muted);}
-.pin-dots{display:flex;gap:12px;justify-content:center;margin-bottom:20px;}
-.pin-dot{width:14px;height:14px;border-radius:50%;background:var(--border);transition:background .15s;}
-.pin-dot.filled{background:var(--gold);}
-.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
-.pin-key{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:20px;font-weight:700;cursor:pointer;transition:all .12s;color:var(--text);}
-.pin-key:active{background:var(--gold);color:#000;transform:scale(.95);}
-.pin-key.del{background:var(--surface);color:var(--muted);}
-.pin-key.ok{background:var(--gold);color:#000;font-size:15px;font-weight:800;}
-.pin-error{color:var(--danger);font-size:13px;margin-top:10px;min-height:18px;}
-.pin-hint{color:var(--muted);font-size:11px;margin-top:6px;}
-
+#pinsc{display:none;min-height:100vh;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:radial-gradient(ellipse at 50% 0%,rgba(212,160,23,.07),transparent 70%);}
+.pcard{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px 24px;max-width:340px;width:100%;text-align:center;}
+.pcard h2{font-size:20px;font-weight:800;margin-bottom:4px;color:var(--glow);}
+.psub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+.msel{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.mbtn{background:var(--card);border:2px solid var(--border);border-radius:12px;padding:12px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;transition:all .18s;}
+.mbtn.sel{border-color:var(--gold);background:rgba(212,160,23,.08);}
+.me{font-size:28px;}.mn{font-size:13px;font-weight:700;color:var(--text);}.mr{font-size:10px;color:var(--muted);}
+.pdots{display:flex;gap:12px;justify-content:center;margin-bottom:20px;}
+.pd{width:14px;height:14px;border-radius:50%;background:var(--border);transition:background .15s;}
+.pd.on{background:var(--gold);}
+.ppad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.pk{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:20px;font-weight:700;cursor:pointer;color:var(--text);transition:all .12s;}
+.pk:active{background:var(--gold);color:#000;transform:scale(.95);}
+.pk.del{background:var(--surface);color:var(--muted);}
+.pk.ok{background:var(--gold);color:#000;font-size:15px;font-weight:800;}
+.perr{color:var(--danger);font-size:13px;margin-top:10px;min-height:18px;}
+.phint{color:var(--muted);font-size:11px;margin-top:6px;}
 #app{display:none;flex-direction:column;min-height:100vh;}
-.topbar{position:sticky;top:0;z-index:100;background:rgba(13,17,23,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:11px 16px;display:flex;align-items:center;gap:10px;}
-.topbar-logo{font-size:22px;}
-.topbar-title{flex:1;font-weight:800;font-size:17px;color:var(--gold-glow);}
-.user-chip{display:flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:5px 10px 5px 7px;cursor:pointer;}
-.uc-em{font-size:18px;}
-.uc-name{font-size:12px;font-weight:700;}
-.uc-role{font-size:10px;color:var(--muted);}
+.tbar{position:sticky;top:0;z-index:100;background:rgba(13,17,23,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:11px 16px;display:flex;align-items:center;gap:10px;}
+.tlogo{font-size:22px;}.ttitle{flex:1;font-weight:800;font-size:17px;color:var(--glow);}
+.uchip{display:flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:5px 10px 5px 7px;cursor:pointer;}
+.ue{font-size:18px;}.un{font-size:12px;font-weight:700;}.ur{font-size:10px;color:var(--muted);}
 .main{flex:1;padding:14px;padding-bottom:76px;max-width:600px;margin:0 auto;width:100%;}
-
 .bnav{position:fixed;bottom:0;left:0;right:0;background:rgba(22,27,34,.96);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;z-index:100;}
-.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 4px;cursor:pointer;border:none;background:none;color:var(--muted);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;transition:color .15s;}
-.bnav-item.active{color:var(--gold);}
-.bnav-item svg{width:21px;height:21px;}
-
-.page{display:none;}
-.page.active{display:block;}
-
-.section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-.section-hdr h2{font-size:18px;font-weight:800;}
+.bi{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 4px;cursor:pointer;border:none;background:none;color:var(--muted);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;transition:color .15s;}
+.bi.act{color:var(--gold);}.bi svg{width:21px;height:21px;}
+.page{display:none;}.page.act{display:block;}
+.shdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.shdr h2{font-size:18px;font-weight:800;}
 .card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:12px;}
-.card-lbl{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;}
-.btn-gold{background:var(--gold);color:#000;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:800;cursor:pointer;width:100%;margin-top:4px;transition:background .15s;}
-.btn-gold:hover{background:var(--gold-glow);}
-.btn-outline{background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:14px;cursor:pointer;width:100%;margin-top:8px;}
-.btn-danger{background:rgba(248,81,73,.12);color:var(--danger);border:1px solid rgba(248,81,73,.3);border-radius:10px;padding:12px;font-size:14px;cursor:pointer;width:100%;margin-top:8px;}
+.clbl{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;}
+.bgold{background:var(--gold);color:#000;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:800;cursor:pointer;width:100%;margin-top:4px;transition:background .15s;}
+.bgold:hover{background:var(--glow);}
+.bline{background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:14px;cursor:pointer;width:100%;margin-top:8px;}
+.bdanger{background:rgba(248,81,73,.12);color:var(--danger);border:1px solid rgba(248,81,73,.3);border-radius:10px;padding:12px;font-size:14px;cursor:pointer;width:100%;margin-top:8px;}
 .fab{position:fixed;bottom:72px;right:16px;width:52px;height:52px;border-radius:50%;background:var(--gold);color:#000;border:none;font-size:28px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(212,160,23,.45);cursor:pointer;z-index:99;transition:transform .15s;}
 .fab:active{transform:scale(.94);}
-
-.fgroup{margin-bottom:14px;}
-.flabel{display:block;font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
-.finput{width:100%;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;outline:none;transition:border-color .18s;}
-.finput:focus{border-color:var(--gold);}
-.finput option{background:var(--card);}
-
-.stat-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
-.stat-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px 10px;text-align:center;}
-.stat-num{font-size:22px;font-weight:900;color:var(--gold-glow);}
-.stat-lbl{font-size:10px;color:var(--muted);margin-top:2px;}
-
-.doc-item{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--border);cursor:pointer;}
-.doc-item:last-child{border-bottom:none;}
-.di-icon{width:42px;height:48px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
-.di-info{flex:1;min-width:0;}
-.di-name{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.di-meta{font-size:12px;color:var(--muted);margin-top:2px;}
-.di-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
-.cat-tag{font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;}
-.exp-badge{font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;}
-
-.member-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.mcard{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center;}
-.mc-em{font-size:32px;margin-bottom:8px;}
-.mc-name{font-size:14px;font-weight:800;}
-.mc-rel{font-size:12px;color:var(--muted);margin:2px 0 6px;}
-.role-badge{font-size:9px;font-weight:800;padding:2px 8px;border-radius:20px;text-transform:uppercase;}
-.rb-admin{background:rgba(212,160,23,.18);color:var(--gold);}
-.rb-member{background:rgba(88,166,255,.15);color:var(--blue);}
-.rb-child{background:rgba(139,148,158,.15);color:var(--muted);}
-
-.rings-scroll{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;-ms-overflow-style:none;scrollbar-width:none;}
-.rings-scroll::-webkit-scrollbar{display:none;}
-.ring-card{flex-shrink:0;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 10px;display:flex;flex-direction:column;align-items:center;gap:7px;width:105px;}
-.ring-wrap{position:relative;width:60px;height:60px;}
+.fg{margin-bottom:14px;}
+.fl{display:block;font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.fi{width:100%;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;outline:none;transition:border-color .18s;}
+.fi:focus{border-color:var(--gold);}
+.fi option{background:var(--card);}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.sstrip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+.sbox{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px 10px;text-align:center;}
+.snum{font-size:22px;font-weight:900;color:var(--glow);}
+.slbl{font-size:10px;color:var(--muted);margin-top:2px;}
+.di{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--border);cursor:pointer;}
+.di:last-child{border-bottom:none;}
+.diico{width:42px;height:48px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;overflow:hidden;}
+.diico img{width:100%;height:100%;object-fit:cover;border-radius:8px;}
+.dii{flex:1;min-width:0;}
+.din{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.dim{font-size:12px;color:var(--muted);margin-top:2px;}
+.dir{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
+.ctag{font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;}
+.ebadge{font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.mcard{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center;cursor:pointer;transition:border-color .18s;}
+.mcard:hover{border-color:var(--gold);}
+.mce{font-size:32px;margin-bottom:8px;}.mcn{font-size:14px;font-weight:800;}
+.mcr{font-size:12px;color:var(--muted);margin:2px 0 6px;}
+.rbadge{font-size:9px;font-weight:800;padding:2px 8px;border-radius:20px;text-transform:uppercase;}
+.ra{background:rgba(212,160,23,.18);color:var(--gold);}
+.rm{background:rgba(88,166,255,.15);color:var(--blue);}
+.rc{background:rgba(139,148,158,.15);color:var(--muted);}
+.rscroll{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;-ms-overflow-style:none;scrollbar-width:none;}
+.rscroll::-webkit-scrollbar{display:none;}
+.rcard{flex-shrink:0;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 10px;display:flex;flex-direction:column;align-items:center;gap:7px;width:105px;}
+.rwrap{position:relative;width:60px;height:60px;}
 .rsvg{transform:rotate(-90deg);}
 .rl{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.rl-num{font-size:13px;font-weight:900;line-height:1;}
-.rl-unit{font-size:9px;color:var(--muted);}
-.rc-name{font-size:10px;font-weight:700;text-align:center;}
-.rc-owner{font-size:10px;color:var(--muted);}
-
-.rem-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
-.rem-bar{width:4px;height:46px;border-radius:4px;flex-shrink:0;}
-.rem-info{flex:1;min-width:0;}
-.rem-title{font-size:14px;font-weight:700;}
-.rem-detail{font-size:12px;color:var(--muted);margin-top:2px;}
-.rem-days{font-size:13px;font-weight:800;flex-shrink:0;}
-
+.rln{font-size:13px;font-weight:900;line-height:1;}.rlu{font-size:9px;color:var(--muted);}
+.rcn{font-size:10px;font-weight:700;text-align:center;}.rco{font-size:10px;color:var(--muted);}
+.remi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.rebar{width:4px;height:46px;border-radius:4px;flex-shrink:0;}
+.reinfo{flex:1;min-width:0;}.retn{font-size:14px;font-weight:700;}
+.retd{font-size:12px;color:var(--muted);margin-top:2px;}.red{font-size:13px;font-weight:800;flex-shrink:0;}
 .chips{display:flex;gap:7px;overflow-x:auto;margin-bottom:12px;-ms-overflow-style:none;scrollbar-width:none;}
 .chips::-webkit-scrollbar{display:none;}
 .chip{flex-shrink:0;padding:5px 13px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:12px;cursor:pointer;transition:all .15s;white-space:nowrap;}
-.chip.active{background:var(--gold);color:#000;border-color:var(--gold);font-weight:700;}
-
-.search-wrap{position:relative;margin-bottom:12px;}
-.search-wrap input{width:100%;padding:10px 14px 10px 38px;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;outline:none;transition:border-color .18s;}
-.search-wrap input:focus{border-color:var(--gold);}
-.search-wrap input::placeholder{color:var(--muted);}
-.search-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:16px;}
-
-.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:500;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
-.modal-ov.open{display:flex;}
-.modal{background:var(--surface);border:1px solid var(--border);border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:600px;max-height:88vh;overflow-y:auto;animation:sup .28s ease;}
+.chip.act{background:var(--gold);color:#000;border-color:var(--gold);font-weight:700;}
+.swrap{position:relative;margin-bottom:12px;}
+.swrap input{width:100%;padding:10px 14px 10px 38px;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;outline:none;}
+.swrap input:focus{border-color:var(--gold);}
+.swrap input::placeholder{color:var(--muted);}
+.sico{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:16px;}
+.movo{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:500;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
+.movo.open{display:flex;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;animation:sup .28s ease;}
 @keyframes sup{from{transform:translateY(100%);}to{transform:translateY(0);}}
-.modal-handle{width:38px;height:4px;background:var(--border);border-radius:4px;margin:0 auto 18px;}
-.modal-title{font-size:17px;font-weight:800;margin-bottom:16px;}
-
+.mhnd{width:38px;height:4px;background:var(--border);border-radius:4px;margin:0 auto 18px;}
+.mtitle{font-size:17px;font-weight:800;margin-bottom:16px;}
+.szn{border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:border-color .18s;margin-bottom:10px;}
+.szn:hover{border-color:var(--gold);}
+.szn .szi{font-size:32px;margin-bottom:6px;}
+.szn p{font-size:12px;color:var(--muted);}
+#scan-prev{width:100%;border-radius:10px;max-height:180px;object-fit:contain;display:none;margin-bottom:8px;border:1px solid var(--border);}
+.uprog{height:4px;background:var(--border);border-radius:4px;overflow:hidden;margin-bottom:6px;display:none;}
+.uprogf{height:100%;background:var(--gold);transition:width .3s;}
+.drow{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border);}
+.drow:last-child{border-bottom:none;}
+.drl{font-size:12px;color:var(--muted);flex-shrink:0;margin-right:12px;}
+.drv{font-size:14px;font-weight:600;text-align:right;word-break:break-all;}
+.mphdr{text-align:center;padding:18px 0 14px;}
+.mpem{font-size:52px;margin-bottom:8px;}.mpnm{font-size:19px;font-weight:800;}
+.mprl{font-size:12px;color:var(--muted);margin-top:2px;}
+.pff{display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-bottom:1px solid var(--border);}
+.pff:last-child{border-bottom:none;}
+.pffico{font-size:17px;flex-shrink:0;width:26px;margin-top:2px;}
+.pffi{flex:1;}.pffl{font-size:11px;color:var(--muted);}.pffv{font-size:14px;font-weight:600;margin-top:1px;}
 .toast{position:fixed;top:72px;left:50%;transform:translateX(-50%) translateY(-16px);background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px 20px;font-size:13px;font-weight:600;z-index:999;opacity:0;transition:all .28s;pointer-events:none;white-space:nowrap;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-
 .empty{text-align:center;padding:44px 20px;color:var(--muted);}
 .empty .ei{font-size:44px;margin-bottom:10px;}
 .empty h3{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;}
 .empty p{font-size:13px;}
-
-.detail-row{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border);}
-.detail-row:last-child{border-bottom:none;}
-.dr-label{font-size:12px;color:var(--muted);flex-shrink:0;}
-.dr-val{font-size:14px;font-weight:600;text-align:right;word-break:break-all;}
-
-@media(min-width:480px){.stat-strip{grid-template-columns:repeat(4,1fr);}.member-grid{grid-template-columns:repeat(3,1fr);}}
+@media(min-width:480px){.sstrip{grid-template-columns:repeat(4,1fr);}.mgrid{grid-template-columns:repeat(3,1fr);}}
 </style>
 </head>
 <body>
+<div id="splash"><div class="vlogo">🔐</div><h1>Hatti Family Vault</h1><p>Gavi · Uma · Rachana · Sanchita</p><div class="lbar"></div></div>
 
-<div id="splash">
-  <div class="vault-logo">🔐</div>
-  <h1>Hatti Family Vault</h1>
-  <p>Gavi · Uma · Rachana · Sanchita</p>
-  <div class="loader-bar"></div>
-</div>
-
-<div id="pin-screen">
-  <div class="pin-card">
-    <h2>🔐 Family Vault</h2>
-    <p class="sub">Select your name and enter your PIN</p>
-    <div class="member-select" id="member-select-btns"></div>
-    <div class="pin-dots">
-      <div class="pin-dot" id="pd0"></div>
-      <div class="pin-dot" id="pd1"></div>
-      <div class="pin-dot" id="pd2"></div>
-      <div class="pin-dot" id="pd3"></div>
-    </div>
-    <div class="pin-pad">
-      <button class="pin-key" onclick="pinKey('1')">1</button>
-      <button class="pin-key" onclick="pinKey('2')">2</button>
-      <button class="pin-key" onclick="pinKey('3')">3</button>
-      <button class="pin-key" onclick="pinKey('4')">4</button>
-      <button class="pin-key" onclick="pinKey('5')">5</button>
-      <button class="pin-key" onclick="pinKey('6')">6</button>
-      <button class="pin-key" onclick="pinKey('7')">7</button>
-      <button class="pin-key" onclick="pinKey('8')">8</button>
-      <button class="pin-key" onclick="pinKey('9')">9</button>
-      <button class="pin-key del" onclick="pinDel()">⌫</button>
-      <button class="pin-key" onclick="pinKey('0')">0</button>
-      <button class="pin-key ok" onclick="pinOK()">OK</button>
-    </div>
-    <div class="pin-error" id="pin-error"></div>
-    <div class="pin-hint" id="pin-hint"></div>
+<div id="pinsc">
+<div class="pcard">
+  <h2>🔐 Family Vault</h2><p class="psub">Select your name and enter your PIN</p>
+  <div class="msel" id="msel"></div>
+  <div class="pdots"><div class="pd" id="pd0"></div><div class="pd" id="pd1"></div><div class="pd" id="pd2"></div><div class="pd" id="pd3"></div></div>
+  <div class="ppad">
+    <button class="pk" onclick="PK('1')">1</button><button class="pk" onclick="PK('2')">2</button><button class="pk" onclick="PK('3')">3</button>
+    <button class="pk" onclick="PK('4')">4</button><button class="pk" onclick="PK('5')">5</button><button class="pk" onclick="PK('6')">6</button>
+    <button class="pk" onclick="PK('7')">7</button><button class="pk" onclick="PK('8')">8</button><button class="pk" onclick="PK('9')">9</button>
+    <button class="pk del" onclick="PD()">&#9003;</button><button class="pk" onclick="PK('0')">0</button><button class="pk ok" onclick="POK()">OK</button>
   </div>
+  <div class="perr" id="perr"></div><div class="phint" id="phint"></div>
+</div>
 </div>
 
 <div id="app">
-  <div class="topbar">
-    <span class="topbar-logo">🔐</span>
-    <div class="topbar-title">Hatti Vault</div>
-    <div class="user-chip" onclick="showPage('settings')">
-      <span class="uc-em" id="uc-em">👨</span>
-      <div><div class="uc-name" id="uc-name">Gavi</div><div class="uc-role" id="uc-role">Admin</div></div>
-    </div>
+<div class="tbar">
+  <span class="tlogo">&#128272;</span>
+  <div class="ttitle">Hatti Vault</div>
+  <div class="uchip" onclick="SP('settings')">
+    <span class="ue" id="uce">&#128104;</span>
+    <div><div class="un" id="ucn">Gavi</div><div class="ur" id="ucr">Admin</div></div>
   </div>
+</div>
+<div class="main">
 
-  <div class="main">
-
-    <div class="page active" id="page-home">
-      <div style="margin-bottom:16px;">
-        <div style="font-size:21px;font-weight:900;" id="home-greeting">Good morning, Gavi 👋</div>
-        <div style="font-size:12px;color:var(--muted);margin-top:3px;" id="home-date"></div>
-      </div>
-      <div class="stat-strip">
-        <div class="stat-box"><div class="stat-num" id="s-docs">0</div><div class="stat-lbl">Documents</div></div>
-        <div class="stat-box"><div class="stat-num" id="s-members">0</div><div class="stat-lbl">Members</div></div>
-        <div class="stat-box"><div class="stat-num" style="color:var(--warn)" id="s-expiring">0</div><div class="stat-lbl">Expiring</div></div>
-      </div>
-      <div class="card-lbl">⏰ Expiry Watch</div>
-      <div class="rings-scroll" id="home-rings" style="margin-bottom:16px;"></div>
-      <div class="card-lbl">📂 Recent Documents</div>
-      <div class="card" style="padding:0 14px;" id="home-recent"></div>
-    </div>
-
-    <div class="page" id="page-docs">
-      <div class="section-hdr"><h2>Documents</h2></div>
-      <div class="search-wrap">
-        <span class="search-ico">🔍</span>
-        <input type="text" placeholder="Search documents…" id="doc-search" oninput="renderDocList()"/>
-      </div>
-      <div class="chips" id="cat-chips">
-        <button class="chip active" onclick="setFilter('All',this)">All</button>
-        <button class="chip" onclick="setFilter('Aadhaar',this)">Aadhaar</button>
-        <button class="chip" onclick="setFilter('PAN',this)">PAN</button>
-        <button class="chip" onclick="setFilter('Passport',this)">Passport</button>
-        <button class="chip" onclick="setFilter('Voter ID',this)">Voter ID</button>
-        <button class="chip" onclick="setFilter('Driving Licence',this)">Driving Lic.</button>
-        <button class="chip" onclick="setFilter('Insurance',this)">Insurance</button>
-        <button class="chip" onclick="setFilter('Vehicle',this)">Vehicle</button>
-        <button class="chip" onclick="setFilter('Education',this)">Education</button>
-        <button class="chip" onclick="setFilter('Property',this)">Property</button>
-        <button class="chip" onclick="setFilter('Ration',this)">Ration</button>
-        <button class="chip" onclick="setFilter('Medical',this)">Medical</button>
-        <button class="chip" onclick="setFilter('Other',this)">Other</button>
-      </div>
-      <div class="card" style="padding:0 14px;" id="doc-list"></div>
-    </div>
-
-    <div class="page" id="page-members">
-      <div class="section-hdr"><h2>Family Members</h2></div>
-      <div class="member-grid" id="member-grid"></div>
-    </div>
-
-    <div class="page" id="page-reminders">
-      <div class="section-hdr"><h2>Expiry Alerts</h2></div>
-      <div id="reminder-list"></div>
-    </div>
-
-    <div class="page" id="page-settings">
-      <div class="section-hdr"><h2>Settings</h2></div>
-      <div class="card" style="text-align:center;padding:20px;margin-bottom:16px;">
-        <div style="font-size:48px;" id="set-em">👨</div>
-        <div style="font-size:18px;font-weight:800;margin-top:8px;" id="set-name">Gavi</div>
-        <div style="margin-top:8px;"><span class="role-badge rb-admin" id="set-badge">Admin</span></div>
-      </div>
-
-      <div class="card-lbl">Change PIN</div>
-      <div class="card">
-        <div class="fgroup">
-          <label class="flabel">New 4-digit PIN for <span id="pin-change-for">Gavi</span></label>
-          <input type="password" maxlength="4" class="finput" id="new-pin-input" placeholder="Enter new PIN" inputmode="numeric"/>
-        </div>
-        <button class="btn-gold" onclick="changePIN()">💾 Save PIN</button>
-      </div>
-
-      <div class="card-lbl" style="margin-top:16px;">🔥 Firebase Configuration</div>
-      <div class="card">
-        <div style="font-size:12px;color:var(--muted);margin-bottom:12px;">Paste your Firebase project config below. Get it from Firebase Console → Project Settings → Your apps.</div>
-        <div class="fgroup">
-          <label class="flabel">API Key</label>
-          <input type="text" class="finput" id="cfg-apikey" placeholder="AIzaSy…"/>
-        </div>
-        <div class="fgroup">
-          <label class="flabel">Auth Domain</label>
-          <input type="text" class="finput" id="cfg-authdomain" placeholder="your-project.firebaseapp.com"/>
-        </div>
-        <div class="fgroup">
-          <label class="flabel">Project ID</label>
-          <input type="text" class="finput" id="cfg-projectid" placeholder="your-project-id"/>
-        </div>
-        <div class="fgroup">
-          <label class="flabel">Storage Bucket</label>
-          <input type="text" class="finput" id="cfg-bucket" placeholder="your-project.appspot.com"/>
-        </div>
-        <div class="fgroup">
-          <label class="flabel">Messaging Sender ID</label>
-          <input type="text" class="finput" id="cfg-senderid" placeholder="123456789"/>
-        </div>
-        <div class="fgroup">
-          <label class="flabel">App ID</label>
-          <input type="text" class="finput" id="cfg-appid" placeholder="1:xxx:web:xxx"/>
-        </div>
-        <button class="btn-gold" onclick="saveFirebaseConfig()">🔥 Save &amp; Connect Firebase</button>
-      </div>
-
-      <div class="card-lbl" style="margin-top:16px;">Firestore Security Rules</div>
-      <div class="card">
-        <div style="font-size:12px;color:var(--muted);margin-bottom:10px;">Copy into Firebase Console → Firestore → Rules → Publish</div>
-        <pre id="rules-pre" style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:11px;color:var(--muted);overflow-x:auto;white-space:pre-wrap;line-height:1.6;">rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /members/{id} {
-      allow read, write: if true;
-    }
-    match /documents/{id} {
-      allow read, write: if true;
-    }
-  }
-}</pre>
-        <button class="btn-outline" onclick="copyRules()">📋 Copy Rules</button>
-      </div>
-
-      <button class="btn-danger" style="margin-top:4px;" onclick="logout()">🚪 Logout</button>
-    </div>
-
+<div class="page act" id="page-home">
+  <div style="margin-bottom:16px;">
+    <div style="font-size:21px;font-weight:900;" id="hgreet">Good morning, Gavi &#128075;</div>
+    <div style="font-size:12px;color:var(--muted);margin-top:3px;" id="hdate"></div>
   </div>
-
-  <nav class="bnav">
-    <button class="bnav-item active" id="bnav-home" onclick="showPage('home')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Home
-    </button>
-    <button class="bnav-item" id="bnav-docs" onclick="showPage('docs')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-      Docs
-    </button>
-    <button class="bnav-item" id="bnav-members" onclick="showPage('members')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-      Members
-    </button>
-    <button class="bnav-item" id="bnav-reminders" onclick="showPage('reminders')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-      Alerts
-    </button>
-    <button class="bnav-item" id="bnav-settings" onclick="showPage('settings')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-      Settings
-    </button>
-  </nav>
-  <button class="fab" id="fab" onclick="openAddDoc()">＋</button>
+  <div class="sstrip">
+    <div class="sbox"><div class="snum" id="s0">0</div><div class="slbl">Documents</div></div>
+    <div class="sbox"><div class="snum" id="s1">0</div><div class="slbl">Members</div></div>
+    <div class="sbox"><div class="snum" style="color:var(--warn)" id="s2">0</div><div class="slbl">Expiring</div></div>
+  </div>
+  <div class="clbl">&#9200; Expiry Watch</div>
+  <div class="rscroll" id="hrings" style="margin-bottom:16px;"></div>
+  <div class="clbl">&#128194; Recent Documents</div>
+  <div class="card" style="padding:0 14px;" id="hrecent"></div>
 </div>
 
-<!-- ADD / EDIT DOC MODAL -->
-<div class="modal-ov" id="modal-add-doc">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title" id="add-doc-title">📄 Add Document</div>
-    <input type="hidden" id="edit-doc-id"/>
-    <div class="fgroup"><label class="flabel">Document Name *</label><input type="text" class="finput" id="f-name" placeholder="e.g. Gavi Aadhaar Card"/></div>
-    <div class="fgroup"><label class="flabel">Category *</label>
-      <select class="finput" id="f-cat">
-        <option value="">-- Select Category --</option>
-        <option>Aadhaar</option><option>PAN</option><option>Passport</option>
-        <option>Voter ID</option><option>Driving Licence</option><option>Insurance</option>
-        <option>Vehicle</option><option>Education</option><option>Property</option>
-        <option>Ration</option><option>Medical</option><option>Other</option>
-      </select>
-    </div>
-    <div class="fgroup"><label class="flabel">Belongs To *</label>
-      <select class="finput" id="f-member">
-        <option value="">-- Select Member --</option>
-        <option>Gavi</option><option>Uma</option><option>Rachana</option><option>Sanchita</option><option>Family</option>
-      </select>
-    </div>
-    <div class="fgroup"><label class="flabel">Expiry Date (leave blank if no expiry)</label><input type="date" class="finput" id="f-expiry"/></div>
-    <div class="fgroup"><label class="flabel">Document Number</label><input type="text" class="finput" id="f-number" placeholder="e.g. XXXX XXXX XXXX 4521"/></div>
-    <div class="fgroup"><label class="flabel">Issue Date</label><input type="date" class="finput" id="f-issued"/></div>
-    <div class="fgroup"><label class="flabel">Issuing Authority</label><input type="text" class="finput" id="f-authority" placeholder="e.g. UIDAI / RTO / Government of India"/></div>
-    <div class="fgroup"><label class="flabel">Physical Storage Location</label><input type="text" class="finput" id="f-location" placeholder="e.g. Blue folder in cupboard, Safe box"/></div>
-    <div class="fgroup"><label class="flabel">Notes</label><input type="text" class="finput" id="f-notes" placeholder="Any extra details…"/></div>
-    <button class="btn-gold" onclick="saveDoc()">💾 Save Document</button>
-    <button class="btn-outline" onclick="closeModal('modal-add-doc')">Cancel</button>
+<div class="page" id="page-docs">
+  <div class="shdr"><h2>Documents</h2></div>
+  <div class="swrap"><span class="sico">&#128269;</span><input type="text" placeholder="Search documents..." id="dsearch" oninput="RDL()"/></div>
+  <div class="chips">
+    <button class="chip act" onclick="SF('All',this)">All</button>
+    <button class="chip" onclick="SF('Aadhaar',this)">Aadhaar</button>
+    <button class="chip" onclick="SF('PAN',this)">PAN</button>
+    <button class="chip" onclick="SF('Passport',this)">Passport</button>
+    <button class="chip" onclick="SF('Voter ID',this)">Voter ID</button>
+    <button class="chip" onclick="SF('Driving Licence',this)">Driving Lic.</button>
+    <button class="chip" onclick="SF('Insurance',this)">Insurance</button>
+    <button class="chip" onclick="SF('Vehicle',this)">Vehicle</button>
+    <button class="chip" onclick="SF('Education',this)">Education</button>
+    <button class="chip" onclick="SF('Property',this)">Property</button>
+    <button class="chip" onclick="SF('Ration',this)">Ration</button>
+    <button class="chip" onclick="SF('Medical',this)">Medical</button>
+    <button class="chip" onclick="SF('Other',this)">Other</button>
   </div>
+  <div class="card" style="padding:0 14px;" id="dlist"></div>
+</div>
+
+<div class="page" id="page-members">
+  <div class="shdr"><h2>Family Members</h2><span style="font-size:12px;color:var(--muted);">Tap to manage</span></div>
+  <div class="mgrid" id="mgrid"></div>
+</div>
+
+<div class="page" id="page-reminders">
+  <div class="shdr"><h2>Expiry Alerts</h2></div>
+  <div id="remlist"></div>
+</div>
+
+<div class="page" id="page-settings">
+  <div class="shdr"><h2>Settings</h2></div>
+  <div class="card" style="text-align:center;padding:20px;margin-bottom:16px;">
+    <div style="font-size:48px;" id="sem">&#128104;</div>
+    <div style="font-size:18px;font-weight:800;margin-top:8px;" id="snm">Gavi</div>
+    <div style="margin-top:8px;"><span class="rbadge ra" id="sbadge">Admin</span></div>
+  </div>
+  <div class="clbl">Change My PIN</div>
+  <div class="card" style="margin-bottom:16px;">
+    <div class="fg"><label class="fl">New 4-digit PIN for <span id="pcfor">Gavi</span></label>
+    <input type="password" maxlength="4" class="fi" id="npinput" placeholder="Enter new PIN" inputmode="numeric"/></div>
+    <button class="bgold" onclick="CHPIN()">&#128190; Save PIN</button>
+  </div>
+  <div class="clbl">&#128293; Firebase Configuration</div>
+  <div class="card" style="margin-bottom:16px;">
+    <div style="font-size:12px;color:var(--muted);margin-bottom:12px;">Paste your Firebase project config. Get it from Firebase Console &#8594; Project Settings &#8594; Your apps &#8594; SDK setup.</div>
+    <div class="fg"><label class="fl">API Key</label><input type="text" class="fi" id="cfg1" placeholder="AIzaSy..."/></div>
+    <div class="fg"><label class="fl">Auth Domain</label><input type="text" class="fi" id="cfg2" placeholder="your-project.firebaseapp.com"/></div>
+    <div class="fg"><label class="fl">Project ID</label><input type="text" class="fi" id="cfg3" placeholder="your-project-id"/></div>
+    <div class="fg"><label class="fl">Storage Bucket</label><input type="text" class="fi" id="cfg4" placeholder="your-project.appspot.com"/></div>
+    <div class="fg"><label class="fl">Messaging Sender ID</label><input type="text" class="fi" id="cfg5" placeholder="123456789"/></div>
+    <div class="fg"><label class="fl">App ID</label><input type="text" class="fi" id="cfg6" placeholder="1:xxx:web:xxx"/></div>
+    <button class="bgold" onclick="SAVECFG()">&#128293; Save &amp; Connect Firebase</button>
+    <div id="fbstat" style="margin-top:8px;font-size:12px;color:var(--muted);text-align:center;"></div>
+  </div>
+  <div class="clbl">&#128249; Scan Storage</div>
+  <div class="card" style="margin-bottom:16px;">
+    <div style="font-size:13px;color:var(--muted);line-height:1.7;">Scans are stored as <strong style="color:var(--text);">compressed images inside Firestore documents</strong> (approx 200-500KB per page after compression).<br><br>
+    Free Firestore limit: <strong style="color:var(--ok);">1 GB</strong> — enough for ~2,000+ scanned pages.<br><br>
+    Tip: For best results, take photos in good lighting.</div>
+  </div>
+  <div class="clbl">Firestore Security Rules</div>
+  <div class="card" style="margin-bottom:16px;">
+    <pre id="rulepre" style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:11px;color:var(--muted);overflow-x:auto;white-space:pre-wrap;line-height:1.6;">rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /members/{id} { allow read, write: if true; }
+    match /documents/{id} { allow read, write: if true; }
+  }
+}</pre>
+    <button class="bline" onclick="CPRULES()">&#128203; Copy Rules</button>
+  </div>
+  <button class="bdanger" onclick="LOGOUT()">&#128682; Logout</button>
+</div>
+
+</div><!-- main -->
+
+<nav class="bnav">
+  <button class="bi act" id="bi-home" onclick="SP('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</button>
+  <button class="bi" id="bi-docs" onclick="SP('docs')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Docs</button>
+  <button class="bi" id="bi-members" onclick="SP('members')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Members</button>
+  <button class="bi" id="bi-reminders" onclick="SP('reminders')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>Alerts</button>
+  <button class="bi" id="bi-settings" onclick="SP('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Settings</button>
+</nav>
+<button class="fab" id="fab" onclick="OPENDOC()">+</button>
+</div><!-- app -->
+
+<input type="file" id="fscan" accept="image/*" capture="environment" style="display:none"/>
+
+<!-- ADD DOC MODAL -->
+<div class="movo" id="m-adddoc">
+<div class="modal">
+  <div class="mhnd"></div>
+  <div class="mtitle" id="adtitle">Add Document</div>
+  <input type="hidden" id="editid"/>
+  <div class="clbl">Scan / Photo</div>
+  <img id="scan-prev" src="" alt="scan"/>
+  <div class="szn" id="szn" onclick="document.getElementById('fscan').click()">
+    <div class="szi">&#128247;</div>
+    <p>Tap to take photo or choose image</p>
+    <p style="font-size:11px;margin-top:3px;">Compressed &amp; saved to Firebase</p>
+  </div>
+  <div class="uprog" id="uprog"><div class="uprogf" id="uprogf" style="width:0%"></div></div>
+  <div style="font-size:11px;color:var(--muted);margin-bottom:12px;" id="scanstat"></div>
+  <div class="fg"><label class="fl">Document Name *</label><input type="text" class="fi" id="fn" placeholder="e.g. Gavi Aadhaar Card"/></div>
+  <div class="fg"><label class="fl">Category *</label>
+    <select class="fi" id="fc">
+      <option value="">-- Select --</option>
+      <option>Aadhaar</option><option>PAN</option><option>Passport</option><option>Voter ID</option>
+      <option>Driving Licence</option><option>Insurance</option><option>Vehicle</option>
+      <option>Education</option><option>Property</option><option>Ration</option><option>Medical</option><option>Other</option>
+    </select>
+  </div>
+  <div class="fg"><label class="fl">Belongs To *</label>
+    <select class="fi" id="fm">
+      <option value="">-- Select --</option>
+      <option>Gavi</option><option>Uma</option><option>Rachana</option><option>Sanchita</option><option>Family</option>
+    </select>
+  </div>
+  <div class="frow">
+    <div class="fg"><label class="fl">Expiry Date</label><input type="date" class="fi" id="fexp"/></div>
+    <div class="fg"><label class="fl">Issue Date</label><input type="date" class="fi" id="fiss"/></div>
+  </div>
+  <div class="fg"><label class="fl">Document Number</label><input type="text" class="fi" id="fnum" placeholder="XXXX XXXX XXXX"/></div>
+  <div class="fg"><label class="fl">Issuing Authority</label><input type="text" class="fi" id="fauth" placeholder="e.g. UIDAI, RTO"/></div>
+  <div class="fg"><label class="fl">Physical Location</label><input type="text" class="fi" id="floc" placeholder="e.g. Blue folder in cupboard"/></div>
+  <div class="fg"><label class="fl">Notes</label><input type="text" class="fi" id="fnotes" placeholder="Any extra details..."/></div>
+  <button class="bgold" id="savebtn" onclick="SAVEDOC()">Save Document</button>
+  <button class="bline" onclick="CM('m-adddoc')">Cancel</button>
+</div>
 </div>
 
 <!-- DOC DETAIL MODAL -->
-<div class="modal-ov" id="modal-doc-detail">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div style="text-align:center;margin-bottom:16px;">
-      <div style="font-size:48px;" id="det-icon"></div>
-      <div style="font-size:18px;font-weight:800;margin-top:8px;" id="det-name"></div>
-    </div>
-    <div id="det-rows"></div>
-    <div style="display:flex;gap:10px;margin-top:16px;" id="det-actions">
-      <button class="btn-gold" style="flex:1;" onclick="editDoc()">✏️ Edit</button>
-      <button class="btn-danger" style="flex:1;" onclick="deleteDoc()">🗑️ Delete</button>
-    </div>
-    <button class="btn-outline" onclick="closeModal('modal-doc-detail')">Close</button>
+<div class="movo" id="m-detail">
+<div class="modal">
+  <div class="mhnd"></div>
+  <div id="det-scanwrap" style="display:none;margin-bottom:12px;">
+    <img id="det-scanimg" src="" style="width:100%;border-radius:10px;max-height:200px;object-fit:contain;border:1px solid var(--border);" alt="scan"/>
+    <button class="bline" style="margin-top:6px;" onclick="FULLSCAN()">&#128247; View Full Size</button>
   </div>
+  <div style="text-align:center;margin-bottom:14px;">
+    <div style="font-size:44px;" id="det-ico"></div>
+    <div style="font-size:17px;font-weight:800;margin-top:6px;" id="det-nm"></div>
+  </div>
+  <div id="det-rows"></div>
+  <div style="display:flex;gap:10px;margin-top:14px;" id="det-acts">
+    <button class="bgold" style="flex:1;" onclick="EDITDOC()">Edit</button>
+    <button class="bdanger" style="flex:1;" onclick="DELDOC()">Delete</button>
+  </div>
+  <button class="bline" onclick="CM('m-detail')">Close</button>
+</div>
+</div>
+
+<!-- MEMBER MODAL -->
+<div class="movo" id="m-member">
+<div class="modal">
+  <div class="mhnd"></div>
+  <div class="mphdr">
+    <div class="mpem" id="mpem">&#128104;</div>
+    <div class="mpnm" id="mpnm">Gavi</div>
+    <div class="mprl" id="mprl">Self &middot; Admin</div>
+    <div style="margin-top:8px;"><span class="rbadge ra" id="mpbadge">Admin</span></div>
+  </div>
+  <div class="clbl">Profile</div>
+  <div class="card" style="padding:0 14px;margin-bottom:12px;"><div id="mpfields"></div></div>
+  <div class="clbl">Documents</div>
+  <div class="card" style="margin-bottom:12px;">
+    <div id="mpdcnt" style="font-size:14px;">0 documents</div>
+    <button class="bline" style="margin-top:8px;" onclick="VIEWMDOCS()">View Documents</button>
+  </div>
+  <div id="mp-adminsec">
+    <div class="clbl">Edit Profile <span style="color:var(--gold);font-size:10px;">(Admin only)</span></div>
+    <div class="card" style="margin-bottom:12px;">
+      <div class="frow">
+        <div class="fg"><label class="fl">Date of Birth</label><input type="date" class="fi" id="mpdob"/></div>
+        <div class="fg"><label class="fl">Blood Group</label>
+          <select class="fi" id="mpblood"><option value="">-</option>
+            <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+            <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg"><label class="fl">Phone</label><input type="tel" class="fi" id="mpphone" placeholder="+91 XXXXX XXXXX"/></div>
+      <div class="fg"><label class="fl">Email</label><input type="email" class="fi" id="mpemail" placeholder="member@gmail.com"/></div>
+      <div class="fg"><label class="fl">Aadhaar Number</label><input type="text" class="fi" id="mpaadhaar" placeholder="XXXX XXXX XXXX" maxlength="14"/></div>
+      <div class="clbl" style="margin-top:4px;">Address</div>
+      <div class="fg"><label class="fl">House / Flat No.</label><input type="text" class="fi" id="mph" placeholder="e.g. H.No. 45, Near Temple"/></div>
+      <div class="fg"><label class="fl">Village / Street</label><input type="text" class="fi" id="mpv" placeholder="e.g. Gunnal Village"/></div>
+      <div class="frow">
+        <div class="fg"><label class="fl">Taluk</label><input type="text" class="fi" id="mptk" placeholder="Koppal"/></div>
+        <div class="fg"><label class="fl">District</label><input type="text" class="fi" id="mpdt" placeholder="Koppal"/></div>
+      </div>
+      <div class="frow">
+        <div class="fg"><label class="fl">State</label><input type="text" class="fi" id="mpst" placeholder="Karnataka"/></div>
+        <div class="fg"><label class="fl">PIN Code</label><input type="text" class="fi" id="mppc" placeholder="583231" maxlength="6"/></div>
+      </div>
+      <button class="bgold" onclick="SAVEPROFILE()">Save Profile</button>
+    </div>
+    <div class="clbl">Reset PIN</div>
+    <div class="card" style="margin-bottom:12px;">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:10px;">Set a new login PIN for <span id="mppname">this member</span>.</div>
+      <div class="fg"><label class="fl">New 4-digit PIN</label><input type="password" class="fi" id="mpnpin" placeholder="4-digit PIN" maxlength="4" inputmode="numeric"/></div>
+      <button class="bgold" onclick="RESETPIN()">Reset PIN</button>
+    </div>
+    <div class="clbl">Member Role</div>
+    <div class="card" style="margin-bottom:12px;">
+      <div class="fg"><label class="fl">Role</label>
+        <select class="fi" id="mprole">
+          <option value="admin">Admin (full access)</option>
+          <option value="member">Member (add &amp; view)</option>
+          <option value="child">Child (view only)</option>
+        </select>
+      </div>
+      <button class="bgold" onclick="SAVEROLE()">Update Role</button>
+    </div>
+  </div>
+  <button class="bline" onclick="CM('m-member')">Close</button>
+</div>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<!-- FIREBASE MODULE -->
 <script type="module">
-import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-window._db = null;
-window._docs = [];
-window._members = [];
-window._currentUser = null;
-window._editDocId = null;
-window._currentFilter = 'All';
-window._viewingDocId = null;
-
-const MEMBER_DEFAULTS = [
-  { id:'gavi',     name:'Gavi',     emoji:'👨', role:'admin',  relation:'Self'    },
-  { id:'uma',      name:'Uma',      emoji:'👩', role:'member', relation:'Mother'  },
-  { id:'rachana',  name:'Rachana',  emoji:'👧', role:'member', relation:'Sister'  },
-  { id:'sanchita', name:'Sanchita', emoji:'👶', role:'child',  relation:'Sister'  },
+import{initializeApp,getApps}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import{getFirestore,doc,setDoc,getDoc,collection,addDoc,getDocs,updateDoc,deleteDoc,query,orderBy}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+window._db=null;window._docs=[];window._members=[];window._cu=null;window._cf='All';window._vid=null;window._vmid=null;window._scan='';
+const MD=[
+  {id:'gavi',name:'Gavi',emoji:'&#128104;',role:'admin',relation:'Self'},
+  {id:'uma',name:'Uma',emoji:'&#128105;',role:'member',relation:'Mother'},
+  {id:'rachana',name:'Rachana',emoji:'&#128103;',role:'member',relation:'Sister'},
+  {id:'sanchita',name:'Sanchita',emoji:'&#128118;',role:'child',relation:'Sister'},
 ];
-
-function getSavedConfig() {
-  try { return JSON.parse(localStorage.getItem('hv_fb_config') || 'null'); } catch { return null; }
+function gcfg(){try{return JSON.parse(localStorage.getItem('hv_cfg')||'null');}catch{return null;}}
+function initFB(c){
+  try{
+    if(!c||!c.apiKey||c.apiKey.startsWith('YOUR')||c.apiKey.length<10)return null;
+    const ex=getApps();
+    return getFirestore(ex.length?ex[0]:initializeApp(c));
+  }catch(e){console.warn('FB init:',e.message);return null;}
 }
-
-function initFirebase(cfg) {
-  try {
-    if (!cfg || !cfg.apiKey || cfg.apiKey.startsWith('YOUR')) return null;
-    const existing = getApps();
-    const app = existing.length ? existing[0] : initializeApp(cfg);
-    return getFirestore(app);
-  } catch(e) { console.warn('Firebase init error:', e); return null; }
-}
-
-async function loadMembers(db) {
-  const members = [];
-  for (const m of MEMBER_DEFAULTS) {
-    const snap = await getDoc(doc(db, 'members', m.id));
-    if (snap.exists()) {
-      members.push({ ...m, ...snap.data() });
-    } else {
-      await setDoc(doc(db, 'members', m.id), { name:m.name, emoji:m.emoji, role:m.role, relation:m.relation, pin:null });
-      members.push({ ...m, pin: null });
-    }
+async function loadMems(db){
+  const arr=[];
+  for(const m of MD){
+    try{
+      const s=await getDoc(doc(db,'members',m.id));
+      if(s.exists()){arr.push({...m,...s.data()});}
+      else{
+        const d={name:m.name,emoji:m.emoji,role:m.role,relation:m.relation,pin:localStorage.getItem('hv_p_'+m.id)||null,dob:'',phone:'',email:'',blood:'',aadhaar:'',address:{}};
+        await setDoc(doc(db,'members',m.id),d);arr.push({...m,...d});
+      }
+    }catch(e){console.warn(m.id,e.message);arr.push({...m,pin:localStorage.getItem('hv_p_'+m.id)||null,dob:'',phone:'',email:'',blood:'',aadhaar:'',address:{}});}
   }
-  return members;
+  return arr;
 }
-
-async function loadDocuments(db) {
-  const docs = [];
-  try {
-    const q = query(collection(db, 'documents'), orderBy('createdAt', 'desc'));
-    const snap = await getDocs(q);
-    snap.forEach(d => docs.push({ ...d.data(), id: d.id }));
-  } catch(e) {
-    // orderBy may fail without index on first run — fallback
-    const snap = await getDocs(collection(db, 'documents'));
-    snap.forEach(d => docs.push({ ...d.data(), id: d.id }));
+async function loadDocs(db){
+  const arr=[];
+  try{
+    const q=query(collection(db,'documents'),orderBy('createdAt','desc'));
+    (await getDocs(q)).forEach(d=>arr.push({...d.data(),id:d.id}));
+  }catch{
+    try{(await getDocs(collection(db,'documents'))).forEach(d=>arr.push({...d.data(),id:d.id}));}
+    catch(e){console.warn('loadDocs:',e.message);}
   }
-  return docs;
+  return arr;
 }
-
-async function init() {
-  const savedCfg = getSavedConfig();
-  // Pre-fill config form
-  if (savedCfg) {
-    document.getElementById('cfg-apikey').value    = savedCfg.apiKey || '';
-    document.getElementById('cfg-authdomain').value= savedCfg.authDomain || '';
-    document.getElementById('cfg-projectid').value = savedCfg.projectId || '';
-    document.getElementById('cfg-bucket').value    = savedCfg.storageBucket || '';
-    document.getElementById('cfg-senderid').value  = savedCfg.messagingSenderId || '';
-    document.getElementById('cfg-appid').value     = savedCfg.appId || '';
+async function INIT(){
+  const cfg=gcfg();
+  if(cfg){
+    ['cfg1','cfg2','cfg3','cfg4','cfg5','cfg6'].forEach((id,i)=>{
+      const v=[cfg.apiKey,cfg.authDomain,cfg.projectId,cfg.storageBucket,cfg.messagingSenderId,cfg.appId][i]||'';
+      document.getElementById(id).value=v;
+    });
   }
-
-  const db = initFirebase(savedCfg);
-  window._db = db;
-
-  if (db) {
-    window._members = await loadMembers(db);
-    window._docs    = await loadDocuments(db);
-    document.getElementById('pin-hint').textContent = '🔥 Firebase connected';
-  } else {
-    // Offline — load PINs from localStorage only
-    window._members = MEMBER_DEFAULTS.map(m => ({
-      ...m, pin: localStorage.getItem('hv_pin_' + m.id) || null
-    }));
-    document.getElementById('pin-hint').textContent = 'No Firebase — configure in Settings after login';
+  const db=initFB(cfg);window._db=db;
+  if(db){
+    document.getElementById('phint').textContent='&#128293; Firebase connected';
+    window._members=await loadMems(db);
+    window._docs=await loadDocs(db);
+    document.getElementById('fbstat').textContent='Connected: '+(cfg.projectId||'Firebase');
+  }else{
+    document.getElementById('phint').textContent='Configure Firebase in Settings after login';
+    window._members=MD.map(m=>({...m,pin:localStorage.getItem('hv_p_'+m.id)||null,dob:'',phone:'',email:'',blood:'',aadhaar:'',address:{}}));
+    document.getElementById('fbstat').textContent='Not connected';
   }
-
-  window.renderMemberSelect();
-  document.getElementById('splash').style.display = 'none';
-  document.getElementById('pin-screen').style.display = 'flex';
+  window.RENDERMSEL();
+  document.getElementById('splash').style.display='none';
+  document.getElementById('pinsc').style.display='flex';
 }
-
-// ── Public Firestore helpers ──
-window._fsSetMember = async (id, data) => {
-  if (!window._db) { if (data.pin) localStorage.setItem('hv_pin_' + id, data.pin); return; }
-  await setDoc(doc(window._db, 'members', id), data, { merge: true });
+window.FSADD=async(data)=>{
+  if(!window._db){toast('No Firebase — configure in Settings');return'local_'+Date.now();}
+  try{const r=await addDoc(collection(window._db,'documents'),{...data,createdAt:new Date().toISOString()});return r.id;}
+  catch(e){console.error('FSADD:',e);toast('Save error: '+e.message);return'local_'+Date.now();}
 };
-window._fsAddDoc = async (data) => {
-  if (!window._db) return 'local_' + Date.now();
-  const ref = await addDoc(collection(window._db, 'documents'), { ...data, createdAt: new Date().toISOString() });
-  return ref.id;
+window.FSUPD=async(id,data)=>{
+  if(!window._db||id.startsWith('local_'))return;
+  try{await updateDoc(doc(window._db,'documents',id),{...data,updatedAt:new Date().toISOString()});}
+  catch(e){console.error('FSUPD:',e);toast('Update error: '+e.message);}
 };
-window._fsUpdateDoc = async (id, data) => {
-  if (!window._db) return;
-  await updateDoc(doc(window._db, 'documents', id), data);
+window.FSDEL=async(id)=>{
+  if(!window._db||id.startsWith('local_'))return;
+  try{await deleteDoc(doc(window._db,'documents',id));}catch(e){console.error('FSDEL:',e);}
 };
-window._fsDeleteDoc = async (id) => {
-  if (!window._db) return;
-  await deleteDoc(doc(window._db, 'documents', id));
+window.FSMEM=async(id,data)=>{
+  if(data.pin!==undefined)localStorage.setItem('hv_p_'+id,data.pin||'');
+  if(!window._db)return;
+  try{await setDoc(doc(window._db,'members',id),data,{merge:true});}
+  catch(e){console.error('FSMEM:',e);toast('Member save error: '+e.message);}
 };
-window._fsReloadDocs = async () => {
-  if (!window._db) return;
-  window._docs = await loadDocuments(window._db);
-  renderAll();
+window.SAVECFG=async()=>{
+  const cfg={apiKey:document.getElementById('cfg1').value.trim(),authDomain:document.getElementById('cfg2').value.trim(),
+    projectId:document.getElementById('cfg3').value.trim(),storageBucket:document.getElementById('cfg4').value.trim(),
+    messagingSenderId:document.getElementById('cfg5').value.trim(),appId:document.getElementById('cfg6').value.trim()};
+  if(!cfg.apiKey||!cfg.projectId){toast('Enter API Key and Project ID');return;}
+  localStorage.setItem('hv_cfg',JSON.stringify(cfg));toast('Saved — reloading...');setTimeout(()=>location.reload(),1500);
 };
-
-window.saveFirebaseConfig = async () => {
-  const cfg = {
-    apiKey:            document.getElementById('cfg-apikey').value.trim(),
-    authDomain:        document.getElementById('cfg-authdomain').value.trim(),
-    projectId:         document.getElementById('cfg-projectid').value.trim(),
-    storageBucket:     document.getElementById('cfg-bucket').value.trim(),
-    messagingSenderId: document.getElementById('cfg-senderid').value.trim(),
-    appId:             document.getElementById('cfg-appid').value.trim(),
-  };
-  if (!cfg.apiKey || !cfg.projectId) { showToast('Enter at least API Key and Project ID'); return; }
-  localStorage.setItem('hv_fb_config', JSON.stringify(cfg));
-  showToast('✅ Saved — reloading…');
-  setTimeout(() => location.reload(), 1200);
-};
-
-init();
+INIT();
 </script>
 
-<!-- APP LOGIC -->
 <script>
-// ── PIN AUTH ──
-let _pin = '', _selMember = null;
-
-window.renderMemberSelect = function() {
-  const members = window._members || [];
-  document.getElementById('member-select-btns').innerHTML = members.map(m =>
-    `<div class="member-btn" id="mbtn-${m.id}" onclick="selectMember('${m.id}')">
-       <div class="mb-em">${m.emoji}</div>
-       <div class="mb-name">${m.name}</div>
-       <div class="mb-role">${m.role}</div>
-     </div>`).join('');
-  if (members.length) selectMember(members[0].id);
+var _pin='',_sm=null;
+window.RENDERMSEL=function(){
+  const ms=window._members||[];
+  document.getElementById('msel').innerHTML=ms.map(m=>
+    '<div class="mbtn" id="mb_'+m.id+'" onclick="SELM(\''+m.id+'\')">'
+    +'<div class="me">'+m.emoji+'</div><div class="mn">'+m.name+'</div><div class="mr">'+m.role+'</div></div>'
+  ).join('');
+  if(ms.length)SELM(ms[0].id);
 };
-
-window.selectMember = id => {
-  _selMember = id; _pin = ''; updateDots();
-  document.querySelectorAll('.member-btn').forEach(b => b.classList.remove('selected'));
-  document.getElementById('mbtn-' + id)?.classList.add('selected');
-  document.getElementById('pin-error').textContent = '';
+window.SELM=function(id){
+  _sm=id;_pin='';UPD();
+  document.querySelectorAll('.mbtn').forEach(b=>b.classList.remove('sel'));
+  var b=document.getElementById('mb_'+id);if(b)b.classList.add('sel');
+  document.getElementById('perr').textContent='';
 };
-
-window.pinKey = k => { if (_pin.length >= 4) return; _pin += k; updateDots(); if (_pin.length === 4) setTimeout(pinOK, 180); };
-window.pinDel = () => { _pin = _pin.slice(0,-1); updateDots(); };
-function updateDots() { for (let i=0;i<4;i++) document.getElementById('pd'+i).className='pin-dot'+(_pin.length>i?' filled':''); }
-
-window.pinOK = async () => {
-  if (!_selMember) { document.getElementById('pin-error').textContent = 'Select a member first'; return; }
-  if (_pin.length < 4) { document.getElementById('pin-error').textContent = 'Enter 4-digit PIN'; return; }
-  const m = (window._members||[]).find(x => x.id === _selMember);
-  if (!m) return;
-  if (!m.pin) {
-    // First login — set PIN
-    m.pin = _pin;
-    await window._fsSetMember(m.id, { pin: _pin });
-    loginAs(m);
-  } else if (m.pin === _pin) {
-    loginAs(m);
-  } else {
-    _pin = ''; updateDots();
-    document.getElementById('pin-error').textContent = '❌ Wrong PIN';
-    setTimeout(() => document.getElementById('pin-error').textContent = '', 2000);
-  }
+window.PK=function(k){if(_pin.length>=4)return;_pin+=k;UPD();if(_pin.length===4)setTimeout(POK,200);};
+window.PD=function(){_pin=_pin.slice(0,-1);UPD();};
+function UPD(){for(var i=0;i<4;i++)document.getElementById('pd'+i).className='pd'+(_pin.length>i?' on':'');}
+window.POK=async function(){
+  if(!_sm){document.getElementById('perr').textContent='Select a member first';return;}
+  if(_pin.length<4){document.getElementById('perr').textContent='Enter 4-digit PIN';return;}
+  var m=(window._members||[]).find(function(x){return x.id===_sm;});
+  if(!m)return;
+  if(!m.pin){m.pin=_pin;await window.FSMEM(m.id,{pin:_pin});toast('PIN set for '+m.name);LOGIN(m);}
+  else if(m.pin===_pin){LOGIN(m);}
+  else{_pin='';UPD();document.getElementById('perr').textContent='Wrong PIN. Try again.';setTimeout(function(){document.getElementById('perr').textContent='';},2000);}
 };
-
-function loginAs(m) {
-  window._currentUser = m;
-  document.getElementById('pin-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'flex';
-  document.getElementById('uc-em').textContent  = m.emoji;
-  document.getElementById('uc-name').textContent = m.name;
-  document.getElementById('uc-role').textContent = m.role;
-  document.getElementById('set-em').textContent  = m.emoji;
-  document.getElementById('set-name').textContent = m.name;
-  document.getElementById('set-badge').textContent = m.role;
-  document.getElementById('set-badge').className = 'role-badge rb-' + m.role;
-  document.getElementById('pin-change-for').textContent = m.name;
-  const h = new Date().getHours();
-  document.getElementById('home-greeting').textContent = (h<12?'Good morning':h<17?'Good afternoon':'Good evening') + ', ' + m.name + ' 👋';
-  document.getElementById('home-date').textContent = new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  renderAll();
+function LOGIN(m){
+  window._cu=m;
+  document.getElementById('pinsc').style.display='none';
+  document.getElementById('app').style.display='flex';
+  document.getElementById('uce').innerHTML=m.emoji;
+  document.getElementById('ucn').textContent=m.name;
+  document.getElementById('ucr').textContent=m.role;
+  document.getElementById('sem').innerHTML=m.emoji;
+  document.getElementById('snm').textContent=m.name;
+  document.getElementById('sbadge').textContent=m.role;
+  document.getElementById('sbadge').className='rbadge '+(m.role==='admin'?'ra':m.role==='member'?'rm':'rc');
+  document.getElementById('pcfor').textContent=m.name;
+  var h=new Date().getHours();
+  document.getElementById('hgreet').textContent=(h<12?'Good morning':h<17?'Good afternoon':'Good evening')+', '+m.name+' \u{1F44B}';
+  document.getElementById('hdate').textContent=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  RA();
 }
-
-window.logout = () => {
-  window._currentUser = null; _pin = ''; updateDots();
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('pin-screen').style.display = 'flex';
+window.LOGOUT=function(){window._cu=null;_pin='';UPD();document.getElementById('app').style.display='none';document.getElementById('pinsc').style.display='flex';};
+window.CHPIN=async function(){
+  var p=document.getElementById('npinput').value.trim();
+  if(!/^\d{4}$/.test(p)){toast('Enter exactly 4 digits');return;}
+  var m=(window._members||[]).find(function(x){return x.id===window._cu&&window._cu.id;});
+  if(!m&&window._cu)m=(window._members||[]).find(function(x){return x.id===window._cu.id;});
+  if(m){m.pin=p;window._cu.pin=p;}
+  await window.FSMEM(window._cu.id,{pin:p});
+  document.getElementById('npinput').value='';toast('PIN updated');
 };
 
-window.changePIN = async () => {
-  const p = document.getElementById('new-pin-input').value.trim();
-  if (!/^\d{4}$/.test(p)) { showToast('Enter exactly 4 digits'); return; }
-  const m = (window._members||[]).find(x => x.id === window._currentUser?.id);
-  if (m) { m.pin = p; window._currentUser.pin = p; }
-  await window._fsSetMember?.(window._currentUser?.id, { pin: p });
-  document.getElementById('new-pin-input').value = '';
-  showToast('✅ PIN updated');
-};
-
-// ── CONSTANTS ──
-const CAT_ICON  = {Aadhaar:'🪪',PAN:'🪙',Passport:'🛂','Voter ID':'🗳️','Driving Licence':'🚗',Insurance:'🛡️',Vehicle:'🚘',Education:'🎓',Property:'🏠',Ration:'🧾',Medical:'🏥',Other:'📄'};
-const CAT_COLOR = {Aadhaar:'#58a6ff',PAN:'#f1ba53',Passport:'#d4a017','Voter ID':'#3fb950','Driving Licence':'#3fb950',Insurance:'#3fb950',Vehicle:'#f85149',Education:'#a371f7',Property:'#ff801f',Ration:'#8b949e',Medical:'#f85149',Other:'#8b949e'};
-
-function daysFrom(dateStr) {
-  if (!dateStr) return null;
-  return Math.round((new Date(dateStr) - new Date()) / 86400000);
+var CICO={Aadhaar:'&#128283;',PAN:'&#129689;',Passport:'&#128706;','Voter ID':'&#128499;','Driving Licence':'&#128663;',Insurance:'&#128737;',Vehicle:'&#128664;',Education:'&#127891;',Property:'&#127968;',Ration:'&#129534;',Medical:'&#127973;',Other:'&#128196;'};
+var CCOL={Aadhaar:'#58a6ff',PAN:'#f1ba53',Passport:'#d4a017','Voter ID':'#3fb950','Driving Licence':'#3fb950',Insurance:'#3fb950',Vehicle:'#f85149',Education:'#a371f7',Property:'#ff801f',Ration:'#8b949e',Medical:'#f85149',Other:'#8b949e'};
+function DF(ds){if(!ds)return null;return Math.round((new Date(ds)-new Date())/86400000);}
+function RA(){RS();RR();RHOME();RDL();RMEM();REML();}
+function RS(){
+  var d=window._docs||[];
+  document.getElementById('s0').textContent=d.length;
+  document.getElementById('s1').textContent=(window._members||[]).length;
+  document.getElementById('s2').textContent=d.filter(function(x){var n=DF(x.expiry);return n!==null&&n>=0&&n<=90;}).length;
 }
-
-// ── RENDER ──
-function renderAll() { renderStats(); renderRings(); renderHomeRecent(); renderDocList(); renderMembers(); renderReminders(); }
-
-function renderStats() {
-  const docs = window._docs||[];
-  document.getElementById('s-docs').textContent = docs.length;
-  document.getElementById('s-members').textContent = (window._members||[]).length;
-  document.getElementById('s-expiring').textContent = docs.filter(d=>{const n=daysFrom(d.expiry);return n!==null&&n>=0&&n<=90;}).length;
-}
-
-function renderRings() {
-  const withExp = (window._docs||[]).filter(d=>d.expiry&&daysFrom(d.expiry)<365).sort((a,b)=>daysFrom(a.expiry)-daysFrom(b.expiry));
-  const el = document.getElementById('home-rings');
-  if (!withExp.length) { el.innerHTML='<div style="font-size:12px;color:var(--muted);padding:8px 0;">No documents expiring within a year 🎉</div>'; return; }
-  const C = 2*Math.PI*25;
-  el.innerHTML = withExp.slice(0,10).map(d => {
-    const n = daysFrom(d.expiry);
-    const pct = Math.max(0,Math.min(1,n/365));
-    const col = n<0?'var(--danger)':n<=30?'var(--danger)':n<=90?'var(--warn)':'var(--ok)';
-    return `<div class="ring-card">
-      <div class="ring-wrap">
-        <svg class="rsvg" width="60" height="60" viewBox="0 0 60 60">
-          <circle cx="30" cy="30" r="25" fill="none" stroke="var(--border)" stroke-width="5"/>
-          <circle cx="30" cy="30" r="25" fill="none" stroke="${col}" stroke-width="5" stroke-linecap="round"
-            stroke-dasharray="${C*pct} ${C}"/>
-        </svg>
-        <div class="rl"><span class="rl-num" style="color:${col}">${n<0?'!':n}</span><span class="rl-unit">${n<0?'exp':'days'}</span></div>
-      </div>
-      <div class="rc-name">${d.name}</div><div class="rc-owner">${d.member||''}</div>
-    </div>`;
+function RR(){
+  var we=(window._docs||[]).filter(function(d){return d.expiry&&DF(d.expiry)<365;}).sort(function(a,b){return DF(a.expiry)-DF(b.expiry);});
+  var el=document.getElementById('hrings');
+  if(!we.length){el.innerHTML='<div style="font-size:12px;color:var(--muted);padding:8px 0;">No documents expiring within a year &#127881;</div>';return;}
+  var C=2*Math.PI*25;
+  el.innerHTML=we.slice(0,10).map(function(d){
+    var n=DF(d.expiry),pct=Math.max(0,Math.min(1,n/365));
+    var col=n<0?'var(--danger)':n<=30?'var(--danger)':n<=90?'var(--warn)':'var(--ok)';
+    return '<div class="rcard"><div class="rwrap"><svg class="rsvg" width="60" height="60" viewBox="0 0 60 60">'
+      +'<circle cx="30" cy="30" r="25" fill="none" stroke="var(--border)" stroke-width="5"/>'
+      +'<circle cx="30" cy="30" r="25" fill="none" stroke="'+col+'" stroke-width="5" stroke-linecap="round" stroke-dasharray="'+(C*pct)+' '+C+'"/>'
+      +'</svg><div class="rl"><span class="rln" style="color:'+col+'">'+(n<0?'!':n)+'</span><span class="rlu">'+(n<0?'exp':'days')+'</span></div></div>'
+      +'<div class="rcn">'+d.name+'</div><div class="rco">'+(d.member||'')+'</div></div>';
   }).join('');
 }
-
-function docHTML(d) {
-  const n = daysFrom(d.expiry);
-  const col = CAT_COLOR[d.category]||'#8b949e';
-  let expBadge = '';
-  if (d.expiry && n!==null) {
-    const bc = n<0?'var(--danger)':n<=30?'var(--danger)':n<=90?'var(--warn)':'var(--ok)';
-    expBadge = `<span class="exp-badge" style="background:${bc}22;color:${bc};">${n<0?'Expired':n+'d'}</span>`;
-  }
-  return `<div class="doc-item" onclick="openDocDetail('${d.id}')">
-    <div class="di-icon">${CAT_ICON[d.category]||'📄'}</div>
-    <div class="di-info"><div class="di-name">${d.name}</div><div class="di-meta">${d.member||''} · ${d.category||''}</div></div>
-    <div class="di-right"><span class="cat-tag" style="background:${col}22;color:${col};">${d.category||'Doc'}</span>${expBadge}</div>
-  </div>`;
+function DHTML(d){
+  var n=DF(d.expiry),col=CCOL[d.category]||'#8b949e';
+  var eb='';
+  if(d.expiry&&n!==null){var bc=n<0?'var(--danger)':n<=30?'var(--danger)':n<=90?'var(--warn)':'var(--ok)';eb='<span class="ebadge" style="background:'+bc+'22;color:'+bc+';">'+(n<0?'Expired':n+'d')+'</span>';}
+  var ico=d.scanData&&d.scanData.startsWith('data:image')?'<img src="'+d.scanData+'" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" alt="scan"/>':(CICO[d.category]||'&#128196;');
+  return '<div class="di" onclick="OPDET(\''+d.id+'\')">'
+    +'<div class="diico">'+ico+'</div>'
+    +'<div class="dii"><div class="din">'+d.name+'</div><div class="dim">'+(d.member||'')+' &middot; '+(d.category||'')+'</div></div>'
+    +'<div class="dir"><span class="ctag" style="background:'+col+'22;color:'+col+';">'+(d.category||'Doc')+'</span>'+eb+'</div>'
+    +'</div>';
 }
-
-function renderHomeRecent() {
-  const el = document.getElementById('home-recent');
-  const docs = (window._docs||[]).slice(0,6);
-  el.innerHTML = docs.length ? docs.map(docHTML).join('') : '<div class="empty"><div class="ei">📂</div><h3>No documents yet</h3><p>Tap + to add your first document</p></div>';
+function RHOME(){
+  var el=document.getElementById('hrecent'),docs=(window._docs||[]).slice(0,6);
+  el.innerHTML=docs.length?docs.map(DHTML).join(''):'<div class="empty"><div class="ei">&#128194;</div><h3>No documents yet</h3><p>Tap + to add your first document</p></div>';
 }
-
-function renderDocList() {
-  const search = (document.getElementById('doc-search')?.value||'').toLowerCase();
-  let docs = window._docs||[];
-  if (window._currentFilter!=='All') docs=docs.filter(d=>d.category===window._currentFilter);
-  if (search) docs=docs.filter(d=>(d.name||'').toLowerCase().includes(search)||(d.member||'').toLowerCase().includes(search)||(d.number||'').toLowerCase().includes(search));
-  document.getElementById('doc-list').innerHTML = docs.length ? docs.map(docHTML).join('') : '<div class="empty"><div class="ei">🔍</div><h3>Nothing found</h3></div>';
+function RDL(){
+  var s=(document.getElementById('dsearch')&&document.getElementById('dsearch').value||'').toLowerCase();
+  var docs=window._docs||[];
+  if(window._cf!=='All')docs=docs.filter(function(d){return d.category===window._cf;});
+  if(s)docs=docs.filter(function(d){return (d.name||'').toLowerCase().includes(s)||(d.member||'').toLowerCase().includes(s)||(d.number||'').toLowerCase().includes(s);});
+  document.getElementById('dlist').innerHTML=docs.length?docs.map(DHTML).join(''):'<div class="empty"><div class="ei">&#128269;</div><h3>Nothing found</h3><p>Try a different filter</p></div>';
 }
-
-window.setFilter = (f,btn) => {
-  window._currentFilter=f;
-  document.querySelectorAll('.chip').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderDocList();
-};
-
-function renderMembers() {
-  document.getElementById('member-grid').innerHTML = (window._members||[]).map(m => {
-    const cnt = (window._docs||[]).filter(d=>d.member===m.name).length;
-    return `<div class="mcard"><div class="mc-em">${m.emoji}</div><div class="mc-name">${m.name}</div><div class="mc-rel">${m.relation||''}</div><span class="role-badge rb-${m.role}">${m.role}</span><div style="font-size:11px;color:var(--muted);margin-top:6px;">📄 ${cnt} docs</div></div>`;
+window.SF=function(f,btn){window._cf=f;document.querySelectorAll('.chip').forEach(function(b){b.classList.remove('act');});btn.classList.add('act');RDL();};
+function RMEM(){
+  document.getElementById('mgrid').innerHTML=(window._members||[]).map(function(m){
+    var cnt=(window._docs||[]).filter(function(d){return d.member===m.name;}).length;
+    return '<div class="mcard" onclick="OPENM(\''+m.id+'\')">'
+      +'<div class="mce">'+m.emoji+'</div><div class="mcn">'+m.name+'</div>'
+      +'<div class="mcr">'+(m.relation||'')+'</div>'
+      +'<span class="rbadge '+(m.role==='admin'?'ra':m.role==='member'?'rm':'rc')+'">'+m.role+'</span>'
+      +'<div style="font-size:11px;color:var(--muted);margin-top:6px;">&#128196; '+cnt+' docs</div></div>';
   }).join('');
 }
-
-function renderReminders() {
-  const withExp = (window._docs||[]).filter(d=>d.expiry).sort((a,b)=>daysFrom(a.expiry)-daysFrom(b.expiry));
-  const el = document.getElementById('reminder-list');
-  if (!withExp.length) { el.innerHTML='<div class="empty"><div class="ei">🎉</div><h3>No expiry reminders</h3><p>Add documents with expiry dates to track them here</p></div>'; return; }
-  el.innerHTML = withExp.map(d => {
-    const n = daysFrom(d.expiry);
-    const col = n<0?'var(--danger)':n<=30?'var(--danger)':n<=90?'var(--warn)':'var(--ok)';
-    const lbl = n<0?'EXPIRED':n===0?'TODAY':n+' days';
-    const icon = n<0?'⛔':n<=7?'🚨':n<=30?'⚠️':'✅';
-    return `<div class="rem-item">
-      <div class="rem-bar" style="background:${col};"></div>
-      <div class="rem-info"><div class="rem-title">${d.name}</div><div class="rem-detail">${d.member||''} · Expires ${new Date(d.expiry).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})} ${icon}</div></div>
-      <div class="rem-days" style="color:${col};">${lbl}</div>
-    </div>`;
+function REML(){
+  var we=(window._docs||[]).filter(function(d){return d.expiry;}).sort(function(a,b){return DF(a.expiry)-DF(b.expiry);});
+  var el=document.getElementById('remlist');
+  if(!we.length){el.innerHTML='<div class="empty"><div class="ei">&#127881;</div><h3>No expiry reminders</h3><p>Add documents with expiry dates</p></div>';return;}
+  el.innerHTML=we.map(function(d){
+    var n=DF(d.expiry),col=n<0?'var(--danger)':n<=30?'var(--danger)':n<=90?'var(--warn)':'var(--ok)';
+    var lbl=n<0?'EXPIRED':n===0?'TODAY':n+' days';
+    var ico=n<0?'&#9940;':n<=7?'&#128680;':n<=30?'&#9888;':'&#9989;';
+    return '<div class="remi"><div class="rebar" style="background:'+col+';"></div>'
+      +'<div class="reinfo"><div class="retn">'+d.name+'</div>'
+      +'<div class="retd">'+(d.member||'')+' &middot; Expires '+new Date(d.expiry).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})+' '+ico+'</div></div>'
+      +'<div class="red" style="color:'+col+';">'+lbl+'</div></div>';
   }).join('');
 }
-
-// ── NAVIGATION ──
-window.showPage = p => {
-  document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
-  document.querySelectorAll('.bnav-item').forEach(e=>e.classList.remove('active'));
-  document.getElementById('page-'+p)?.classList.add('active');
-  document.getElementById('bnav-'+p)?.classList.add('active');
-  document.getElementById('fab').style.display = (p==='settings'||p==='reminders')?'none':'flex';
+window.SP=function(p){
+  document.querySelectorAll('.page').forEach(function(e){e.classList.remove('act');});
+  document.querySelectorAll('.bi').forEach(function(e){e.classList.remove('act');});
+  var pg=document.getElementById('page-'+p);if(pg)pg.classList.add('act');
+  var bn=document.getElementById('bi-'+p);if(bn)bn.classList.add('act');
+  document.getElementById('fab').style.display=(p==='settings'||p==='reminders')?'none':'flex';
 };
 
-// ── DOCUMENT CRUD ──
-window.openAddDoc = () => {
-  window._editDocId = null;
-  document.getElementById('add-doc-title').textContent = '📄 Add Document';
-  document.getElementById('edit-doc-id').value = '';
-  ['f-name','f-expiry','f-number','f-issued','f-authority','f-location','f-notes'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('f-cat').value='';
-  document.getElementById('f-member').value='';
-  document.getElementById('modal-add-doc').classList.add('open');
+// SCAN
+document.getElementById('fscan').addEventListener('change',async function(e){
+  var file=e.target.files[0];if(!file)return;
+  var prog=document.getElementById('uprog'),pf=document.getElementById('uprogf'),st=document.getElementById('scanstat'),prev=document.getElementById('scan-prev');
+  prog.style.display='block';pf.style.width='30%';st.textContent='Processing...';
+  try{
+    var dataUrl=await new Promise(function(res,rej){
+      var img=new Image(),r=new FileReader();
+      r.onload=function(ev){
+        img.onload=function(){
+          var c=document.createElement('canvas'),w=img.width,h=img.height,q=0.82;
+          var mx=1400;if(w>mx||h>mx){var sc=Math.min(mx/w,mx/h);w=Math.round(w*sc);h=Math.round(h*sc);}
+          c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
+          var u=c.toDataURL('image/jpeg',q);
+          while(u.length/1024>600&&q>0.2){q-=0.1;u=c.toDataURL('image/jpeg',q);}
+          res(u);
+        };
+        img.onerror=rej;img.src=ev.target.result;
+      };
+      r.onerror=rej;r.readAsDataURL(file);
+    });
+    pf.style.width='100%';
+    window._scan=dataUrl;
+    prev.src=dataUrl;prev.style.display='block';
+    document.getElementById('szn').style.borderColor='var(--ok)';
+    st.textContent='Ready ('+Math.round(dataUrl.length/1024)+' KB)';
+    setTimeout(function(){prog.style.display='none';pf.style.width='0%';},600);
+  }catch(err){st.textContent='Failed: '+err.message;prog.style.display='none';}
+  e.target.value='';
+});
+
+window.OPENDOC=function(){
+  window._scan='';
+  document.getElementById('adtitle').textContent='Add Document';
+  document.getElementById('editid').value='';
+  document.getElementById('scan-prev').style.display='none';
+  document.getElementById('scan-prev').src='';
+  document.getElementById('szn').style.display='';
+  document.getElementById('szn').style.borderColor='';
+  document.getElementById('scanstat').textContent='';
+  ['fn','fexp','fiss','fnum','fauth','floc','fnotes'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('fc').value='';document.getElementById('fm').value='';
+  document.getElementById('m-adddoc').classList.add('open');
 };
 
-window.saveDoc = async () => {
-  const name = document.getElementById('f-name').value.trim();
-  const cat  = document.getElementById('f-cat').value;
-  const mem  = document.getElementById('f-member').value;
-  if (!name||!cat||!mem) { showToast('Name, Category and Member are required'); return; }
-  const data = {
-    name, category:cat, member:mem,
-    expiry:    document.getElementById('f-expiry').value,
-    number:    document.getElementById('f-number').value.trim(),
-    issued:    document.getElementById('f-issued').value,
-    authority: document.getElementById('f-authority').value.trim(),
-    location:  document.getElementById('f-location').value.trim(),
-    notes:     document.getElementById('f-notes').value.trim(),
-    addedBy:   window._currentUser?.name||'',
-  };
-  const editId = document.getElementById('edit-doc-id').value;
-  if (editId) {
-    const idx = (window._docs||[]).findIndex(d=>d.id===editId);
-    if (idx>=0) window._docs[idx]={...data,id:editId};
-    await window._fsUpdateDoc?.(editId, data);
-    showToast('✅ Document updated');
-  } else {
-    const id = await window._fsAddDoc?.(data)||('local_'+Date.now());
-    (window._docs||[]).unshift({...data,id});
-    showToast('✅ Document saved');
-  }
-  closeModal('modal-add-doc');
-  renderAll();
+window.SAVEDOC=async function(){
+  var name=document.getElementById('fn').value.trim();
+  var cat=document.getElementById('fc').value;
+  var mem=document.getElementById('fm').value;
+  if(!name||!cat||!mem){toast('Name, Category and Member required');return;}
+  var btn=document.getElementById('savebtn');btn.textContent='Saving...';btn.disabled=true;
+  var data={name:name,category:cat,member:mem,
+    expiry:document.getElementById('fexp').value,
+    issued:document.getElementById('fiss').value,
+    number:document.getElementById('fnum').value.trim(),
+    authority:document.getElementById('fauth').value.trim(),
+    location:document.getElementById('floc').value.trim(),
+    notes:document.getElementById('fnotes').value.trim(),
+    addedBy:window._cu&&window._cu.name||'',
+    scanData:window._scan||''};
+  var eid=document.getElementById('editid').value;
+  try{
+    if(eid){
+      var idx=(window._docs||[]).findIndex(function(d){return d.id===eid;});
+      if(idx>=0)window._docs[idx]=Object.assign({},data,{id:eid});
+      await window.FSUPD(eid,data);toast('Document updated');
+    }else{
+      var id=await window.FSADD(data);
+      (window._docs=window._docs||[]).unshift(Object.assign({},data,{id:id}));
+      toast('Saved to Firebase');
+    }
+    CM('m-adddoc');RA();
+  }catch(e){toast('Error: '+e.message);}
+  finally{btn.textContent='Save Document';btn.disabled=false;}
 };
 
-window.openDocDetail = id => {
-  const d = (window._docs||[]).find(x=>x.id===id);
-  if (!d) return;
-  window._viewingDocId = id;
-  document.getElementById('det-icon').textContent = CAT_ICON[d.category]||'📄';
-  document.getElementById('det-name').textContent = d.name;
-  const fields = [['Category',d.category],['Belongs To',d.member],['Document Number',d.number||'—'],['Issue Date',d.issued?new Date(d.issued).toLocaleDateString('en-IN'):'—'],['Expiry Date',d.expiry?new Date(d.expiry).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}):'No expiry'],['Issuing Authority',d.authority||'—'],['Storage Location',d.location||'—'],['Notes',d.notes||'—'],['Added By',d.addedBy||'—']];
-  document.getElementById('det-rows').innerHTML = fields.map(([l,v])=>`<div class="detail-row"><span class="dr-label">${l}</span><span class="dr-val">${v}</span></div>`).join('');
-  document.getElementById('det-actions').style.display = window._currentUser?.role==='admin'?'flex':'none';
-  document.getElementById('modal-doc-detail').classList.add('open');
+window.OPDET=function(id){
+  var d=(window._docs||[]).find(function(x){return x.id===id;});if(!d)return;
+  window._vid=id;
+  var sw=document.getElementById('det-scanwrap'),si=document.getElementById('det-scanimg');
+  if(d.scanData&&d.scanData.startsWith('data:image')){si.src=d.scanData;sw.style.display='block';}
+  else{sw.style.display='none';}
+  document.getElementById('det-ico').innerHTML=CICO[d.category]||'&#128196;';
+  document.getElementById('det-nm').textContent=d.name;
+  var fields=[['Category',d.category],['Belongs To',d.member],['Doc Number',d.number||'—'],
+    ['Issue Date',d.issued?new Date(d.issued).toLocaleDateString('en-IN'):'—'],
+    ['Expiry',d.expiry?new Date(d.expiry).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}):'No expiry'],
+    ['Authority',d.authority||'—'],['Physical Location',d.location||'—'],
+    ['Notes',d.notes||'—'],['Added By',d.addedBy||'—'],['Scan',d.scanData?'Attached':'—']];
+  document.getElementById('det-rows').innerHTML=fields.map(function(f){return '<div class="drow"><span class="drl">'+f[0]+'</span><span class="drv">'+f[1]+'</span></div>';}).join('');
+  document.getElementById('det-acts').style.display=window._cu&&window._cu.role==='admin'?'flex':'none';
+  document.getElementById('m-detail').classList.add('open');
 };
 
-window.editDoc = () => {
-  const id = window._viewingDocId;
-  const d = (window._docs||[]).find(x=>x.id===id);
-  if (!d) return;
-  closeModal('modal-doc-detail');
-  document.getElementById('add-doc-title').textContent = '✏️ Edit Document';
-  document.getElementById('edit-doc-id').value = id;
-  document.getElementById('f-name').value = d.name||'';
-  document.getElementById('f-cat').value = d.category||'';
-  document.getElementById('f-member').value = d.member||'';
-  document.getElementById('f-expiry').value = d.expiry||'';
-  document.getElementById('f-number').value = d.number||'';
-  document.getElementById('f-issued').value = d.issued||'';
-  document.getElementById('f-authority').value = d.authority||'';
-  document.getElementById('f-location').value = d.location||'';
-  document.getElementById('f-notes').value = d.notes||'';
-  document.getElementById('modal-add-doc').classList.add('open');
+window.FULLSCAN=function(){
+  var d=(window._docs||[]).find(function(x){return x.id===window._vid;});
+  if(!d||!d.scanData)return;
+  var w=window.open();w.document.write('<img src="'+d.scanData+'" style="max-width:100%;"/>');
 };
 
-window.deleteDoc = async () => {
-  if (!confirm('Delete this document? This cannot be undone.')) return;
-  const id = window._viewingDocId;
-  window._docs = (window._docs||[]).filter(d=>d.id!==id);
-  await window._fsDeleteDoc?.(id);
-  closeModal('modal-doc-detail');
-  renderAll();
-  showToast('🗑️ Deleted');
+window.EDITDOC=function(){
+  var id=window._vid,d=(window._docs||[]).find(function(x){return x.id===id;});if(!d)return;
+  CM('m-detail');
+  window._scan=d.scanData||'';
+  document.getElementById('adtitle').textContent='Edit Document';
+  document.getElementById('editid').value=id;
+  document.getElementById('fn').value=d.name||'';
+  document.getElementById('fc').value=d.category||'';
+  document.getElementById('fm').value=d.member||'';
+  document.getElementById('fexp').value=d.expiry||'';
+  document.getElementById('fiss').value=d.issued||'';
+  document.getElementById('fnum').value=d.number||'';
+  document.getElementById('fauth').value=d.authority||'';
+  document.getElementById('floc').value=d.location||'';
+  document.getElementById('fnotes').value=d.notes||'';
+  var prev=document.getElementById('scan-prev');
+  if(d.scanData&&d.scanData.startsWith('data:image')){prev.src=d.scanData;prev.style.display='block';document.getElementById('scanstat').textContent='Existing scan attached';}
+  else{prev.style.display='none';document.getElementById('scanstat').textContent='';}
+  document.getElementById('m-adddoc').classList.add('open');
 };
 
-// ── UTILS ──
-window.copyRules = () => {
-  navigator.clipboard?.writeText(document.getElementById('rules-pre').textContent).catch(()=>{});
-  showToast('📋 Rules copied');
+window.DELDOC=async function(){
+  if(!confirm('Delete this document? Cannot be undone.'))return;
+  var id=window._vid;
+  window._docs=(window._docs||[]).filter(function(d){return d.id!==id;});
+  await window.FSDEL(id);CM('m-detail');RA();toast('Deleted');
 };
 
-window.closeModal = id => document.getElementById(id)?.classList.remove('open');
-document.querySelectorAll('.modal-ov').forEach(o => o.addEventListener('click', e => { if(e.target===o) o.classList.remove('open'); }));
-
-window.showToast = msg => {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  clearTimeout(t._to); t._to = setTimeout(()=>t.classList.remove('show'), 2800);
+window.OPENM=function(id){
+  var m=(window._members||[]).find(function(x){return x.id===id;});if(!m)return;
+  window._vmid=id;
+  document.getElementById('mpem').innerHTML=m.emoji;
+  document.getElementById('mpnm').textContent=m.name;
+  document.getElementById('mprl').textContent=(m.relation||'')+' \u00B7 '+m.role;
+  document.getElementById('mpbadge').textContent=m.role;
+  document.getElementById('mpbadge').className='rbadge '+(m.role==='admin'?'ra':m.role==='member'?'rm':'rc');
+  document.getElementById('mppname').textContent=m.name;
+  var a=m.address||{};
+  var astr=[a.house,a.village,a.taluk,a.district,a.state,a.pincode].filter(Boolean).join(', ');
+  var fds=[['&#128197;','Date of Birth',m.dob?new Date(m.dob).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}):'—'],
+    ['&#129656;','Blood Group',m.blood||'—'],['&#128241;','Phone',m.phone||'—'],
+    ['&#128231;','Email',m.email||'—'],['&#128283;','Aadhaar',m.aadhaar?'XXXX XXXX '+m.aadhaar.slice(-4):'—'],
+    ['&#127968;','Address',astr||'—']];
+  document.getElementById('mpfields').innerHTML=fds.map(function(f){return '<div class="pff"><div class="pffico">'+f[0]+'</div><div class="pffi"><div class="pffl">'+f[1]+'</div><div class="pffv">'+f[2]+'</div></div></div>';}).join('');
+  var cnt=(window._docs||[]).filter(function(d){return d.member===m.name;}).length;
+  document.getElementById('mpdcnt').textContent=cnt+' document'+(cnt!==1?'s':'');
+  document.getElementById('mpdob').value=m.dob||'';
+  document.getElementById('mpblood').value=m.blood||'';
+  document.getElementById('mpphone').value=m.phone||'';
+  document.getElementById('mpemail').value=m.email||'';
+  document.getElementById('mpaadhaar').value=m.aadhaar||'';
+  document.getElementById('mph').value=a.house||'';
+  document.getElementById('mpv').value=a.village||'';
+  document.getElementById('mptk').value=a.taluk||'';
+  document.getElementById('mpdt').value=a.district||'';
+  document.getElementById('mpst').value=a.state||'Karnataka';
+  document.getElementById('mppc').value=a.pincode||'';
+  document.getElementById('mprole').value=m.role;
+  document.getElementById('mpnpin').value='';
+  document.getElementById('mp-adminsec').style.display=window._cu&&window._cu.role==='admin'?'block':'none';
+  document.getElementById('m-member').classList.add('open');
 };
+
+window.SAVEPROFILE=async function(){
+  var id=window._vmid;if(!id)return;
+  var m=(window._members||[]).find(function(x){return x.id===id;});if(!m)return;
+  var data={dob:document.getElementById('mpdob').value,blood:document.getElementById('mpblood').value,
+    phone:document.getElementById('mpphone').value.trim(),email:document.getElementById('mpemail').value.trim(),
+    aadhaar:document.getElementById('mpaadhaar').value.trim(),
+    address:{house:document.getElementById('mph').value.trim(),village:document.getElementById('mpv').value.trim(),
+      taluk:document.getElementById('mptk').value.trim(),district:document.getElementById('mpdt').value.trim(),
+      state:document.getElementById('mpst').value.trim(),pincode:document.getElementById('mppc').value.trim()}};
+  Object.assign(m,data);
+  await window.FSMEM(id,data);
+  toast('Profile saved for '+m.name);OPENM(id);RMEM();
+};
+
+window.RESETPIN=async function(){
+  var id=window._vmid;if(!id)return;
+  var p=document.getElementById('mpnpin').value.trim();
+  if(!/^\d{4}$/.test(p)){toast('Enter exactly 4 digits');return;}
+  var m=(window._members||[]).find(function(x){return x.id===id;});if(!m)return;
+  m.pin=p;await window.FSMEM(id,{pin:p});
+  document.getElementById('mpnpin').value='';toast('PIN reset for '+m.name);
+};
+
+window.SAVEROLE=async function(){
+  var id=window._vmid;if(!id)return;
+  var role=document.getElementById('mprole').value;
+  var m=(window._members||[]).find(function(x){return x.id===id;});if(!m)return;
+  m.role=role;await window.FSMEM(id,{role:role});
+  document.getElementById('mpbadge').textContent=role;
+  document.getElementById('mpbadge').className='rbadge '+(role==='admin'?'ra':role==='member'?'rm':'rc');
+  RMEM();toast('Role updated to '+role);
+};
+
+window.VIEWMDOCS=function(){
+  var id=window._vmid,m=(window._members||[]).find(function(x){return x.id===id;});if(!m)return;
+  CM('m-member');
+  document.getElementById('dsearch').value=m.name;RDL();SP('docs');
+};
+
+window.CM=function(id){var el=document.getElementById(id);if(el)el.classList.remove('open');};
+document.querySelectorAll('.movo').forEach(function(o){o.addEventListener('click',function(e){if(e.target===o)o.classList.remove('open');});});
+window.CPRULES=function(){navigator.clipboard&&navigator.clipboard.writeText(document.getElementById('rulepre').textContent).catch(function(){});toast('Rules copied');};
+window.toast=function(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},2800);};
 </script>
 </body>
 </html>
