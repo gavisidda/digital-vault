@@ -18,6 +18,7 @@ html,body{height:100%;background:var(--bg);color:var(--tx);font-family:'Segoe UI
 .lbar{width:140px;height:3px;background:var(--bdr);border-radius:3px;overflow:hidden;}
 .lbar::after{content:'';display:block;width:40%;height:100%;background:var(--gold);border-radius:3px;animation:lb 1.2s ease-in-out infinite;}
 @keyframes lb{0%{margin-left:0;}50%{margin-left:60%;}100%{margin-left:0;}}
+/* PIN */
 #pinsc{display:none;min-height:100vh;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:radial-gradient(ellipse at 50% 0%,rgba(212,160,23,.07),transparent 70%);}
 .pcard{background:var(--sf);border:1px solid var(--bdr);border-radius:20px;padding:28px 24px;max-width:380px;width:100%;text-align:center;}
 .pcard h2{font-size:20px;font-weight:800;margin-bottom:4px;color:var(--glow);}
@@ -26,20 +27,22 @@ html,body{height:100%;background:var(--bg);color:var(--tx);font-family:'Segoe UI
 .mbtn{background:var(--card);border:2px solid var(--bdr);border-radius:12px;padding:10px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .18s;}
 .mbtn.sel{border-color:var(--gold);background:rgba(212,160,23,.08);}
 .me{font-size:24px;}.mn{font-size:12px;font-weight:700;color:var(--tx);line-height:1.2;}.mr{font-size:10px;color:var(--mu);}
-.pdots{display:flex;gap:12px;justify-content:center;margin-bottom:16px;}
-.pd{width:14px;height:14px;border-radius:50%;background:var(--bdr);transition:background .15s;}.pd.on{background:var(--gold);}
+/* 6-dot PIN */
+.pdots{display:flex;gap:10px;justify-content:center;margin-bottom:16px;}
+.pd{width:13px;height:13px;border-radius:50%;background:var(--bdr);transition:background .15s;}.pd.on{background:var(--gold);}
 .ppad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
 .pk{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:15px;font-size:20px;font-weight:700;cursor:pointer;color:var(--tx);transition:all .12s;}
 .pk:active{background:var(--gold);color:#000;transform:scale(.95);}
 .pk.del{background:var(--sf);color:var(--mu);}.pk.ok{background:var(--gold);color:#000;font-size:15px;font-weight:800;}
 .perr{color:var(--red);font-size:13px;margin-top:10px;min-height:18px;}
 .phint{color:var(--mu);font-size:11px;margin-top:5px;}
+/* APP */
 #app{display:none;flex-direction:column;min-height:100vh;}
 .tbar{position:sticky;top:0;z-index:100;background:rgba(13,17,23,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bdr);padding:10px 16px;display:flex;align-items:center;gap:10px;}
 .tlogo{font-size:20px;}.ttl{flex:1;font-weight:800;font-size:16px;color:var(--glow);}
-.fbdot{width:8px;height:8px;border-radius:50%;background:var(--mu);flex-shrink:0;}
-.fbdot.connected{background:var(--ok);box-shadow:0 0 6px rgba(63,185,80,.6);}
-.fbdot.error{background:var(--red);}
+.fbdot{width:8px;height:8px;border-radius:50%;background:var(--mu);flex-shrink:0;transition:all .3s;}
+.fbdot.on{background:var(--ok);box-shadow:0 0 6px rgba(63,185,80,.6);}
+.fbdot.err{background:var(--red);}
 .uchip{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--bdr);border-radius:20px;padding:5px 10px 5px 7px;cursor:pointer;}
 .ue{font-size:16px;}.un{font-size:12px;font-weight:700;}.urr{font-size:10px;color:var(--mu);}
 .main{flex:1;padding:14px;padding-bottom:76px;max-width:600px;margin:0 auto;width:100%;}
@@ -63,11 +66,14 @@ html,body{height:100%;background:var(--bg);color:var(--tx);font-family:'Segoe UI
 .fi:focus{border-color:var(--gold);}
 .fi option{background:var(--card);}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+/* Stats */
 .sstrip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
 .sbox{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:13px 10px;text-align:center;}
 .snum{font-size:22px;font-weight:900;color:var(--glow);}.slbl{font-size:10px;color:var(--mu);margin-top:2px;}
+/* Doc item */
 .di{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--bdr);cursor:pointer;}
 .di:last-child{border-bottom:none;}
+.di:hover{opacity:.85;}
 .diico{width:42px;height:48px;border-radius:8px;background:var(--sf);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;overflow:hidden;}
 .diico img{width:100%;height:100%;object-fit:cover;border-radius:8px;}
 .dii{flex:1;min-width:0;}.din{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -75,27 +81,39 @@ html,body{height:100%;background:var(--bg);color:var(--tx);font-family:'Segoe UI
 .dir{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
 .ctag{font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;}
 .ebadge{font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;}
+/* Member card — improved */
 .mgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
-.mcard{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:14px;text-align:center;cursor:pointer;transition:border-color .18s;}
+.mcard{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:14px 12px;cursor:pointer;transition:border-color .18s;display:flex;flex-direction:column;}
 .mcard:hover{border-color:var(--gold);}
-.mcard.add-card{border-style:dashed;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:120px;}
-.mce{font-size:30px;margin-bottom:6px;}.mcn{font-size:14px;font-weight:800;}
-.mcrl{font-size:12px;color:var(--mu);margin:2px 0 6px;}
+.mcard.add-card{border-style:dashed;align-items:center;justify-content:center;min-height:130px;}
+.mc-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.mc-em{font-size:32px;flex-shrink:0;}
+.mc-head{flex:1;min-width:0;}
+.mcn{font-size:14px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mcrl{font-size:11px;color:var(--mu);margin-top:1px;}
+.mc-info{display:flex;flex-direction:column;gap:4px;}
+.mc-row{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--mu);}
+.mc-row strong{color:var(--tx);font-weight:600;}
+.mc-bot{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid var(--bdr);}
 .rbadge{font-size:9px;font-weight:800;padding:2px 8px;border-radius:20px;text-transform:uppercase;}
 .rba{background:rgba(212,160,23,.18);color:var(--gold);}
 .rbm{background:rgba(88,166,255,.15);color:var(--bl);}
 .rbc{background:rgba(139,148,158,.15);color:var(--mu);}
+/* Rings */
 .rscroll{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;-ms-overflow-style:none;scrollbar-width:none;}
 .rscroll::-webkit-scrollbar{display:none;}
-.rcard{flex-shrink:0;background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:12px 10px;display:flex;flex-direction:column;align-items:center;gap:7px;width:105px;}
+.rcard{flex-shrink:0;background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:12px 10px;display:flex;flex-direction:column;align-items:center;gap:7px;width:105px;cursor:pointer;}
+.rcard:hover{border-color:var(--gold);}
 .rwrap{position:relative;width:60px;height:60px;}.rsvg{transform:rotate(-90deg);}
 .rl{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .rln{font-size:13px;font-weight:900;line-height:1;}.rlu{font-size:9px;color:var(--mu);}
 .rcn{font-size:10px;font-weight:700;text-align:center;}.rco{font-size:10px;color:var(--mu);}
+/* Reminders */
 .remi{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:13px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
 .rebar{width:4px;height:46px;border-radius:4px;flex-shrink:0;}
 .reinfo{flex:1;min-width:0;}.retn{font-size:14px;font-weight:700;}
 .retd{font-size:12px;color:var(--mu);margin-top:2px;}.red{font-size:13px;font-weight:800;flex-shrink:0;}
+/* Chips + search */
 .chips{display:flex;gap:7px;overflow-x:auto;margin-bottom:12px;-ms-overflow-style:none;scrollbar-width:none;}
 .chips::-webkit-scrollbar{display:none;}
 .chip{flex-shrink:0;padding:5px 13px;border-radius:20px;border:1px solid var(--bdr);background:transparent;color:var(--mu);font-size:12px;cursor:pointer;white-space:nowrap;}
@@ -105,22 +123,29 @@ html,body{height:100%;background:var(--bg);color:var(--tx);font-family:'Segoe UI
 .swrap input:focus{border-color:var(--gold);}
 .swrap input::placeholder{color:var(--mu);}
 .sico{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--mu);}
+/* Modal */
 .movo{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:500;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
 .movo.open{display:flex;}
 .modal{background:var(--sf);border:1px solid var(--bdr);border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;animation:sup .28s ease;}
 @keyframes sup{from{transform:translateY(100%);}to{transform:translateY(0);}}
 .mhnd{width:38px;height:4px;background:var(--bdr);border-radius:4px;margin:0 auto 18px;}
 .mtitle{font-size:17px;font-weight:800;margin-bottom:16px;}
-.szn{border:2px dashed var(--bdr);border-radius:12px;padding:18px;text-align:center;cursor:pointer;margin-bottom:10px;}
-.szn:hover{border-color:var(--gold);}
-.szni{font-size:30px;margin-bottom:5px;}.sznp{font-size:12px;color:var(--mu);}
-#scanprev{width:100%;border-radius:10px;max-height:180px;object-fit:contain;display:none;margin-bottom:8px;border:1px solid var(--bdr);}
+/* Scan upload buttons */
+.scan-btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;}
+.scan-btn{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:12px 6px;text-align:center;cursor:pointer;transition:border-color .18s;}
+.scan-btn:hover{border-color:var(--gold);}
+.scan-btn .sbi{font-size:22px;margin-bottom:4px;}
+.scan-btn .sbt{font-size:10px;color:var(--mu);font-weight:600;}
+#scanprev{width:100%;border-radius:10px;max-height:200px;object-fit:contain;display:none;margin-bottom:8px;border:1px solid var(--bdr);}
+.scan-clear{font-size:11px;color:var(--red);cursor:pointer;text-align:center;display:none;margin-bottom:8px;}
 .uprog{height:4px;background:var(--bdr);border-radius:4px;overflow:hidden;margin-bottom:6px;display:none;}
 .uprogf{height:100%;background:var(--gold);transition:width .3s;}
+/* Detail */
 .drow{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--bdr);}
 .drow:last-child{border-bottom:none;}
 .drl{font-size:12px;color:var(--mu);flex-shrink:0;margin-right:12px;}
 .drv{font-size:14px;font-weight:600;text-align:right;word-break:break-all;}
+/* Member profile */
 .mphdr{text-align:center;padding:16px 0 12px;}
 .mpem{font-size:50px;margin-bottom:8px;}.mpnm{font-size:19px;font-weight:800;}
 .mprl{font-size:12px;color:var(--mu);margin-top:2px;}
@@ -128,28 +153,26 @@ html,body{height:100%;background:var(--bg);color:var(--tx);font-family:'Segoe UI
 .pff:last-child{border-bottom:none;}
 .pffico{font-size:16px;flex-shrink:0;width:24px;margin-top:2px;}
 .pffi{flex:1;}.pffl{font-size:11px;color:var(--mu);}.pffv{font-size:14px;font-weight:600;margin-top:1px;}
-/* Firebase status panel */
+/* Firebase panel */
 .fb-panel{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:14px;margin-bottom:12px;}
 .fb-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--bdr);font-size:13px;}
 .fb-row:last-child{border-bottom:none;}
-.fb-key{color:var(--mu);}
-.fb-val{font-weight:600;font-size:12px;word-break:break-all;text-align:right;max-width:60%;}
+.fb-key{color:var(--mu);}.fb-val{font-weight:600;font-size:12px;text-align:right;max-width:65%;word-break:break-all;}
 .fb-ok{color:var(--ok);}.fb-err{color:var(--red);}.fb-mu{color:var(--mu);}
+/* Emojis */
 .emojis{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
 .epick{font-size:24px;cursor:pointer;padding:4px;border-radius:8px;border:2px solid transparent;}
 .epick.sel{border-color:var(--gold);background:rgba(212,160,23,.1);}
+/* Toast + empty */
 .toast{position:fixed;top:72px;left:50%;transform:translateX(-50%) translateY(-16px);background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:9px 20px;font-size:13px;font-weight:600;z-index:999;opacity:0;transition:all .28s;pointer-events:none;white-space:nowrap;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .empty{text-align:center;padding:40px 20px;color:var(--mu);}
 .empty .ei{font-size:44px;margin-bottom:10px;}
 .empty h3{font-size:15px;font-weight:700;color:var(--tx);margin-bottom:4px;}
-.pff{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--bdr);}
-.pff:last-child{border-bottom:none;}
 @media(min-width:480px){.sstrip{grid-template-columns:repeat(4,1fr);}.mgrid{grid-template-columns:repeat(3,1fr);}}
 </style>
 </head>
 <body>
-
 <div id="splash">
   <div class="vlogo">&#128272;</div>
   <h1>Hatti Family Vault</h1>
@@ -157,14 +180,15 @@ html,body{height:100%;background:var(--bg);color:var(--tx);font-family:'Segoe UI
   <div class="lbar"></div>
 </div>
 
+<!-- PIN -->
 <div id="pinsc">
 <div class="pcard">
   <h2>&#128272; Family Vault</h2>
-  <p class="psub">Select your name and enter PIN</p>
+  <p class="psub">Select your name and enter 6-digit PIN</p>
   <div class="msel" id="msel"></div>
   <div class="pdots">
-    <div class="pd" id="pd0"></div><div class="pd" id="pd1"></div>
-    <div class="pd" id="pd2"></div><div class="pd" id="pd3"></div>
+    <div class="pd" id="pd0"></div><div class="pd" id="pd1"></div><div class="pd" id="pd2"></div>
+    <div class="pd" id="pd3"></div><div class="pd" id="pd4"></div><div class="pd" id="pd5"></div>
   </div>
   <div class="ppad">
     <button class="pk" onclick="PK('1')">1</button><button class="pk" onclick="PK('2')">2</button><button class="pk" onclick="PK('3')">3</button>
@@ -177,17 +201,17 @@ html,body{height:100%;background:var(--bg);color:var(--tx);font-family:'Segoe UI
 </div>
 </div>
 
+<!-- APP -->
 <div id="app">
 <div class="tbar">
   <span class="tlogo">&#128272;</span>
   <div class="ttl">Hatti Vault</div>
-  <div class="fbdot" id="fbdot" title="Firebase status"></div>
+  <div class="fbdot" id="fbdot" title="Firebase"></div>
   <div class="uchip" onclick="SP('settings')">
     <span class="ue" id="uce">&#128104;</span>
     <div><div class="un" id="ucn">Admin</div><div class="urr" id="ucr">admin</div></div>
   </div>
 </div>
-
 <div class="main">
 
 <!-- HOME -->
@@ -203,11 +227,19 @@ html,body{height:100%;background:var(--bg);color:var(--tx);font-family:'Segoe UI
   </div>
   <div class="clbl">&#9200; Expiry Watch</div>
   <div class="rscroll" id="hrings" style="margin-bottom:16px;"></div>
-  <div class="clbl">&#128194; Recent Documents</div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+    <div class="clbl" style="margin:0;">&#128194; Recent Documents</div>
+    <span style="font-size:12px;color:var(--gold);cursor:pointer;" onclick="SP('docs')">View all &#8250;</span>
+  </div>
   <div class="card" style="padding:0 14px;" id="hrecent"></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;margin-top:16px;">
+    <div class="clbl" style="margin:0;">&#128101; Family Members</div>
+    <span style="font-size:12px;color:var(--gold);cursor:pointer;" onclick="SP('members')">View all &#8250;</span>
+  </div>
+  <div class="mgrid" id="hmembers"></div>
 </div>
 
-<!-- DOCUMENTS -->
+<!-- DOCS -->
 <div class="page" id="page-docs">
   <div class="shdr"><h2>Documents</h2></div>
   <div class="swrap"><span class="sico">&#128269;</span><input type="text" placeholder="Search..." id="dsearch" oninput="RDL()"/></div>
@@ -250,23 +282,22 @@ html,body{height:100%;background:var(--bg);color:var(--tx);font-family:'Segoe UI
     <div style="font-size:18px;font-weight:800;margin-top:8px;" id="snm">Admin</div>
     <div style="margin-top:8px;"><span class="rbadge rba" id="sbadge">Admin</span></div>
   </div>
-
-  <div class="clbl">Change My PIN</div>
+  <div class="clbl">My Profile</div>
   <div class="card" style="margin-bottom:16px;">
-    <div class="fg"><label class="fl">New 4-digit PIN</label>
-    <input type="password" maxlength="4" class="fi" id="npinput" placeholder="Enter new PIN" inputmode="numeric"/></div>
+    <button class="bgold" onclick="OPENMYPROFILE()" style="margin-top:0;">&#9999; Edit My Profile</button>
+  </div>
+  <div class="clbl">Change My PIN (6 digits)</div>
+  <div class="card" style="margin-bottom:16px;">
+    <div class="fg"><label class="fl">New 6-digit PIN</label>
+    <input type="password" maxlength="6" class="fi" id="npinput" placeholder="Enter new 6-digit PIN" inputmode="numeric"/></div>
     <button class="bgold" onclick="CHPIN()">&#128190; Save PIN</button>
   </div>
-
-  <!-- Firebase status — admin only -->
   <div id="fbstatblock" style="display:none;">
     <div class="clbl">&#128293; Firebase Status</div>
     <div class="fb-panel" id="fbstatpanel"></div>
   </div>
-
   <div class="clbl">Firestore Rules</div>
   <div class="card" style="margin-bottom:16px;">
-    <div style="font-size:12px;color:var(--mu);margin-bottom:10px;">Copy into Firebase Console &#8594; Firestore &#8594; Rules &#8594; Publish</div>
     <pre id="rulepre" style="background:var(--bg);border:1px solid var(--bdr);border-radius:8px;padding:12px;font-size:11px;color:var(--mu);overflow-x:auto;white-space:pre-wrap;line-height:1.6;">rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -279,8 +310,7 @@ service cloud.firestore {
   <button class="bdanger" onclick="LOGOUT()">&#128682; Logout</button>
 </div>
 
-</div>
-
+</div><!-- /main -->
 <nav class="bnav">
   <button class="bi act" id="bi-home" onclick="SP('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</button>
   <button class="bi" id="bi-docs" onclick="SP('docs')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Docs</button>
@@ -289,25 +319,20 @@ service cloud.firestore {
   <button class="bi" id="bi-settings" onclick="SP('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Settings</button>
 </nav>
 <button class="fab" id="fab" onclick="OPENDOC()">+</button>
-</div>
+</div><!-- /app -->
 
-<input type="file" id="fscan" accept="image/*" capture="environment" style="display:none"/>
+<!-- File inputs — camera, gallery, file -->
+<input type="file" id="fscan-cam"  accept="image/*" capture="environment" style="display:none"/>
+<input type="file" id="fscan-gal"  accept="image/*,application/pdf" style="display:none"/>
+<input type="file" id="fscan-file" accept="image/*,application/pdf,.pdf,.jpg,.jpeg,.png,.heic" style="display:none"/>
 
-<!-- ADD / EDIT DOC -->
+<!-- ADD / EDIT DOC MODAL -->
 <div class="movo" id="m-adddoc">
 <div class="modal">
   <div class="mhnd"></div>
   <div class="mtitle" id="adtitle">Add Document</div>
   <input type="hidden" id="editid"/>
-  <div class="clbl">&#128247; Scan / Photo</div>
-  <img id="scanprev" src="" alt="scan"/>
-  <div class="szn" onclick="document.getElementById('fscan').click()">
-    <div class="szni">&#128247;</div>
-    <p class="sznp">Tap to take photo or choose image</p>
-    <p class="sznp" style="font-size:11px;margin-top:3px;">Compressed &amp; saved to Firebase</p>
-  </div>
-  <div class="uprog" id="uprog"><div class="uprogf" id="uprogf" style="width:0%"></div></div>
-  <div style="font-size:11px;color:var(--mu);margin-bottom:12px;" id="scanstat"></div>
+  <!-- fields first -->
   <div class="fg"><label class="fl">Document Name *</label><input type="text" class="fi" id="fn" placeholder="e.g. Gavi Aadhaar Card"/></div>
   <div class="fg"><label class="fl">Category *</label>
     <select class="fi" id="fc">
@@ -328,7 +353,24 @@ service cloud.firestore {
   <div class="fg"><label class="fl">Issuing Authority</label><input type="text" class="fi" id="fauth" placeholder="e.g. UIDAI, RTO"/></div>
   <div class="fg"><label class="fl">Physical Location</label><input type="text" class="fi" id="floc" placeholder="e.g. Blue folder, Safe box"/></div>
   <div class="fg"><label class="fl">Notes</label><input type="text" class="fi" id="fnotes" placeholder="Any extra details..."/></div>
-  <button class="bgold" id="savebtn" onclick="SAVEDOC()">&#128190; Save Document</button>
+  <!-- SCAN at the END -->
+  <div class="clbl" style="margin-top:8px;">&#128247; Attach Scan / Photo (Optional)</div>
+  <div class="scan-btns">
+    <div class="scan-btn" onclick="document.getElementById('fscan-cam').click()">
+      <div class="sbi">&#128247;</div><div class="sbt">Camera</div>
+    </div>
+    <div class="scan-btn" onclick="document.getElementById('fscan-gal').click()">
+      <div class="sbi">&#128444;</div><div class="sbt">Gallery</div>
+    </div>
+    <div class="scan-btn" onclick="document.getElementById('fscan-file').click()">
+      <div class="sbi">&#128193;</div><div class="sbt">Files / PDF</div>
+    </div>
+  </div>
+  <div class="uprog" id="uprog"><div class="uprogf" id="uprogf" style="width:0%"></div></div>
+  <div style="font-size:11px;color:var(--mu);margin-bottom:6px;" id="scanstat"></div>
+  <img id="scanprev" src="" alt="scan"/>
+  <div class="scan-clear" id="scanclear" onclick="CLEARSCAN()">&#10060; Remove scan</div>
+  <button class="bgold" id="savebtn" onclick="SAVEDOC()" style="margin-top:12px;">&#128190; Save Document</button>
   <button class="bline" onclick="CM('m-adddoc')">Cancel</button>
 </div>
 </div>
@@ -338,7 +380,7 @@ service cloud.firestore {
 <div class="modal">
   <div class="mhnd"></div>
   <div id="detscanwrap" style="display:none;margin-bottom:12px;">
-    <img id="detscanimg" src="" style="width:100%;border-radius:10px;max-height:200px;object-fit:contain;border:1px solid var(--bdr);" alt="scan"/>
+    <img id="detscanimg" src="" style="width:100%;border-radius:10px;max-height:220px;object-fit:contain;border:1px solid var(--bdr);" alt="scan"/>
     <button class="bline" style="margin-top:6px;" onclick="FULLSCAN()">&#128247; View Full Size</button>
   </div>
   <div style="text-align:center;margin-bottom:14px;">
@@ -354,7 +396,7 @@ service cloud.firestore {
 </div>
 </div>
 
-<!-- ADD / EDIT MEMBER -->
+<!-- ADD / EDIT MEMBER MODAL -->
 <div class="movo" id="m-addmem">
 <div class="modal">
   <div class="mhnd"></div>
@@ -364,7 +406,7 @@ service cloud.firestore {
   <div class="emojis" id="emojipicker"></div>
   <input type="hidden" id="memoji" value="&#128104;"/>
   <div class="fg"><label class="fl">Full Name *</label><input type="text" class="fi" id="mname" placeholder="e.g. Gavisiddappa Hatti"/></div>
-  <div class="fg"><label class="fl">Short Name / Nickname *</label><input type="text" class="fi" id="mnick" placeholder="e.g. Gavi  (used as document owner label)"/></div>
+  <div class="fg"><label class="fl">Short Name / Nickname *</label><input type="text" class="fi" id="mnick" placeholder="e.g. Gavi"/></div>
   <div class="fg"><label class="fl">Relation *</label><input type="text" class="fi" id="mrel" placeholder="e.g. Self, Mother, Son, Uncle, Grandfather..."/></div>
   <div class="fg"><label class="fl">Role</label>
     <select class="fi" id="mrole">
@@ -396,15 +438,15 @@ service cloud.firestore {
     <div class="fg"><label class="fl">State</label><input type="text" class="fi" id="mstate" placeholder="Karnataka"/></div>
     <div class="fg"><label class="fl">PIN Code</label><input type="text" class="fi" id="mpincode" placeholder="583231" maxlength="6"/></div>
   </div>
-  <div class="fg"><label class="fl">Login PIN (4 digits)</label>
-    <input type="password" class="fi" id="mpin" placeholder="Leave blank if setting later" maxlength="4" inputmode="numeric"/>
+  <div class="fg"><label class="fl">Login PIN (6 digits)</label>
+    <input type="password" class="fi" id="mpin" placeholder="Leave blank to set later" maxlength="6" inputmode="numeric"/>
   </div>
   <button class="bgold" id="savemembtn" onclick="SAVEMEM()">&#128190; Save Member</button>
   <button class="bline" onclick="CM('m-addmem')">Cancel</button>
 </div>
 </div>
 
-<!-- MEMBER PROFILE -->
+<!-- MEMBER PROFILE MODAL (all roles can edit own profile) -->
 <div class="movo" id="m-member">
 <div class="modal">
   <div class="mhnd"></div>
@@ -414,19 +456,23 @@ service cloud.firestore {
     <div class="mprl" id="mprl">Relation</div>
     <div style="margin-top:8px;"><span class="rbadge rba" id="mpbadge">admin</span></div>
   </div>
-  <div class="clbl">Profile</div>
+  <div class="clbl">Profile Info</div>
   <div class="card" style="padding:0 14px;margin-bottom:12px;"><div id="mpfields"></div></div>
   <div class="clbl">Documents</div>
   <div class="card" style="margin-bottom:12px;">
     <div id="mpdcnt">0 documents</div>
     <button class="bline" style="margin-top:8px;" onclick="VIEWMDOCS()">&#128194; View Documents</button>
   </div>
+  <!-- Edit own profile — available to ALL roles -->
+  <div id="mp-editown" style="display:none;">
+    <button class="bgold" onclick="EDITMEMP()">&#9999; Edit Profile</button>
+  </div>
+  <!-- Admin-only section -->
   <div id="mp-adminsec" style="display:none;">
-    <button class="bgold" onclick="EDITMEMP()">&#9999; Edit This Member</button>
     <div class="clbl" style="margin-top:16px;">Reset Login PIN</div>
     <div class="card" style="margin-bottom:12px;">
-      <div class="fg"><label class="fl">New 4-digit PIN for <span id="mppname">member</span></label>
-        <input type="password" class="fi" id="mpnpin" placeholder="4-digit PIN" maxlength="4" inputmode="numeric"/>
+      <div class="fg"><label class="fl">New 6-digit PIN for <span id="mppname">member</span></label>
+        <input type="password" class="fi" id="mpnpin" placeholder="6-digit PIN" maxlength="6" inputmode="numeric"/>
       </div>
       <button class="bgold" onclick="RESETPIN()">&#128273; Reset PIN</button>
     </div>
@@ -438,184 +484,119 @@ service cloud.firestore {
 
 <div class="toast" id="toast"></div>
 
-<!-- ═══════ FIREBASE — HARDCODED CONFIG ═══════ -->
+<!-- FIREBASE — HARDCODED -->
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import{getFirestore,doc,setDoc,getDoc,collection,addDoc,getDocs,updateDoc,deleteDoc,query,orderBy,onSnapshot}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// ── HARDCODED CONFIG ──────────────────────────────────────
-const FB_CFG = {
-  apiKey:            "AIzaSyAWrXJeM5n4d87qUsVyh_URm8IoDrxf9Qk",
-  authDomain:        "hatti-digital-vault.firebaseapp.com",
-  projectId:         "hatti-digital-vault",
-  storageBucket:     "hatti-digital-vault.firebasestorage.app",
-  messagingSenderId: "126430827491",
-  appId:             "1:126430827491:web:81cfcda0a032714cc846d6",
-  measurementId:     "G-H1BKJWWKE1"
+const FB_CFG={
+  apiKey:"AIzaSyAWrXJeM5n4d87qUsVyh_URm8IoDrxf9Qk",
+  authDomain:"hatti-digital-vault.firebaseapp.com",
+  projectId:"hatti-digital-vault",
+  storageBucket:"hatti-digital-vault.firebasestorage.app",
+  messagingSenderId:"126430827491",
+  appId:"1:126430827491:web:81cfcda0a032714cc846d6",
+  measurementId:"G-H1BKJWWKE1"
 };
-// ─────────────────────────────────────────────────────────
+const app=initializeApp(FB_CFG);
+const db=getFirestore(app);
+window.G={db,docs:[],members:[],cu:null,cf:'All',vid:null,vmid:null,scan:'',editMemId:null,pickedEmoji:'&#128104;',fbStatus:{connected:false,docs:0,mems:0,sync:''}};
 
-const app = initializeApp(FB_CFG);
-const db  = getFirestore(app);
-window.G  = {db, docs:[], members:[], cu:null, cf:'All', vid:null, vmid:null, scan:'', editMemId:null, pickedEmoji:'&#128104;', fbStatus:{connected:false, docsCount:0, memsCount:0, lastSync:''}};
-
-function setDot(status){
-  const d=document.getElementById('fbdot');
-  d.className='fbdot'+(status==='ok'?' connected':status==='err'?' error':'');
-  d.title=status==='ok'?'Firebase connected':status==='err'?'Firebase error':'Connecting...';
-}
+function setDot(s){const d=document.getElementById('fbdot');d.className='fbdot'+(s==='ok'?' on':s==='err'?' err':'');d.title=s==='ok'?'Firebase live':s==='err'?'Firebase error':'Connecting...';}
 setDot('loading');
 
-// ── LOAD ALL DATA ──
-async function loadMembers(){
-  try{
-    const snap=await getDocs(collection(db,'members'));
-    const arr=[];
-    snap.forEach(d=>arr.push({...d.data(),id:d.id}));
-    arr.sort((a,b)=>(a.createdAt||'').localeCompare(b.createdAt||''));
-    return arr;
-  }catch(e){console.error('loadMembers:',e);return[];}
-}
-async function loadDocs(){
-  try{
-    let arr=[];
-    try{
-      const q=query(collection(db,'documents'),orderBy('createdAt','desc'));
-      (await getDocs(q)).forEach(d=>arr.push({...d.data(),id:d.id}));
-    }catch{
-      (await getDocs(collection(db,'documents'))).forEach(d=>arr.push({...d.data(),id:d.id}));
-    }
-    return arr;
-  }catch(e){console.error('loadDocs:',e);return[];}
-}
-
-// ── REAL-TIME LISTENERS — the fix for live updates ──
-function attachListeners(){
-  // Members live listener
-  onSnapshot(collection(db,'members'), snap=>{
-    const arr=[];
-    snap.forEach(d=>arr.push({...d.data(),id:d.id}));
-    arr.sort((a,b)=>(a.createdAt||'').localeCompare(b.createdAt||''));
-    window.G.members=arr;
-    window.G.fbStatus.memsCount=arr.length;
-    if(window.G.cu){window.RENDERMSEL();window.BUILDDROPDOWN();window.RA();}
-    else{window.RENDERMSEL();}
-    updateFBPanel();
-  }, err=>{console.error('members snapshot:',err);setDot('err');});
-
-  // Documents live listener
-  onSnapshot(query(collection(db,'documents'),orderBy('createdAt','desc')), snap=>{
-    const arr=[];
-    snap.forEach(d=>arr.push({...d.data(),id:d.id}));
-    window.G.docs=arr;
-    window.G.fbStatus.docsCount=arr.length;
-    window.G.fbStatus.lastSync=new Date().toLocaleTimeString('en-IN');
-    if(window.G.cu){window.RA();}
-    setDot('ok');
-    updateFBPanel();
-  }, err=>{
-    console.error('docs snapshot:',err);
-    setDot('err');
-    // Fallback: try without orderBy (rules/index issue)
-    onSnapshot(collection(db,'documents'), snap2=>{
-      const arr=[];
-      snap2.forEach(d=>arr.push({...d.data(),id:d.id}));
-      arr.sort((a,b)=>(b.createdAt||'').localeCompare(a.createdAt||''));
-      window.G.docs=arr;
-      window.G.fbStatus.docsCount=arr.length;
-      window.G.fbStatus.lastSync=new Date().toLocaleTimeString('en-IN');
-      if(window.G.cu){window.RA();}
-      setDot('ok');
-      updateFBPanel();
-    });
-  });
+async function loadAll(){
+  const[ms,ds]=await Promise.all([
+    getDocs(collection(db,'members')).then(s=>{const a=[];s.forEach(d=>a.push({...d.data(),id:d.id}));a.sort((a,b)=>(a.createdAt||'').localeCompare(b.createdAt||''));return a;}).catch(()=>[]),
+    getDocs(collection(db,'documents')).then(s=>{const a=[];s.forEach(d=>a.push({...d.data(),id:d.id}));return a;}).catch(()=>[])
+  ]);
+  return{ms,ds};
 }
 
 function updateFBPanel(){
-  const s=window.G.fbStatus;
-  const panel=document.getElementById('fbstatpanel');
-  if(!panel)return;
-  panel.innerHTML=[
-    ['Project ID', FB_CFG.projectId,'fb-ok'],
-    ['Status', s.connected||s.docsCount>=0?'&#128293; Connected':'&#10060; Not connected', s.connected||s.docsCount>=0?'fb-ok':'fb-err'],
-    ['Documents in DB', s.docsCount, 'fb-ok'],
-    ['Members in DB', s.memsCount, 'fb-ok'],
-    ['Last sync', s.lastSync||'—', 'fb-mu'],
-    ['Auth Domain', FB_CFG.authDomain, 'fb-mu'],
-  ].map(([k,v,c])=>'<div class="fb-row"><span class="fb-key">'+k+'</span><span class="fb-val '+c+'">'+v+'</span></div>').join('');
+  const s=window.G.fbStatus,el=document.getElementById('fbstatpanel');if(!el)return;
+  el.innerHTML=[['Project',FB_CFG.projectId,'fb-ok'],['Status','&#128293; Live &amp; Connected','fb-ok'],
+    ['Documents in DB',s.docs,'fb-ok'],['Members in DB',s.mems,'fb-ok'],
+    ['Last sync',s.sync||'&mdash;','fb-mu'],['Auth Domain',FB_CFG.authDomain,'fb-mu']]
+    .map(([k,v,c])=>'<div class="fb-row"><span class="fb-key">'+k+'</span><span class="fb-val '+c+'">'+v+'</span></div>').join('');
 }
 
-// ── INIT ──
+function attachListeners(){
+  // Members live
+  onSnapshot(collection(db,'members'),snap=>{
+    const a=[];snap.forEach(d=>a.push({...d.data(),id:d.id}));
+    a.sort((x,y)=>(x.createdAt||'').localeCompare(y.createdAt||''));
+    window.G.members=a;window.G.fbStatus.mems=a.length;
+    window.RENDERMSEL();if(window.G.cu){window.BUILDDROPDOWN();window.RA();}
+    updateFBPanel();
+  },e=>console.warn('mem snap:',e));
+
+  // Docs live — try with orderBy, fall back without
+  const docsSnap=snap=>{
+    const a=[];snap.forEach(d=>a.push({...d.data(),id:d.id}));
+    a.sort((x,y)=>(y.createdAt||'').localeCompare(x.createdAt||''));
+    window.G.docs=a;window.G.fbStatus.docs=a.length;
+    window.G.fbStatus.sync=new Date().toLocaleTimeString('en-IN');
+    window.G.fbStatus.connected=true;
+    setDot('ok');if(window.G.cu)window.RA();updateFBPanel();
+  };
+  const docsErr=()=>{
+    onSnapshot(collection(db,'documents'),docsSnap,()=>setDot('err'));
+  };
+  try{onSnapshot(query(collection(db,'documents'),orderBy('createdAt','desc')),docsSnap,docsErr);}
+  catch{onSnapshot(collection(db,'documents'),docsSnap,()=>setDot('err'));}
+}
+
 async function INIT(){
   document.getElementById('splashsub').textContent='Loading family data...';
   try{
-    const[mems,docs]=await Promise.all([loadMembers(),loadDocs()]);
-    window.G.members=mems;
-    window.G.docs=docs;
-    window.G.fbStatus.memsCount=mems.length;
-    window.G.fbStatus.docsCount=docs.length;
-    window.G.fbStatus.lastSync=new Date().toLocaleTimeString('en-IN');
+    const{ms,ds}=await loadAll();
+    window.G.members=ms;window.G.docs=ds;
+    window.G.fbStatus.mems=ms.length;window.G.fbStatus.docs=ds.length;
+    window.G.fbStatus.sync=new Date().toLocaleTimeString('en-IN');
     window.G.fbStatus.connected=true;
-    setDot('ok');
-    // Attach live listeners AFTER initial load
-    attachListeners();
-  }catch(e){
-    console.error('INIT error:',e);
-    setDot('err');
-    document.getElementById('phint').textContent='&#10060; Firebase error: '+e.message;
-  }
+    setDot('ok');attachListeners();
+  }catch(e){console.error('INIT:',e);setDot('err');document.getElementById('phint').textContent='Firebase error: '+e.message;}
   window.RENDERMSEL();
   document.getElementById('splash').style.display='none';
   document.getElementById('pinsc').style.display='flex';
 }
 
-// ── FIRESTORE HELPERS ──
-window.FSADD=async(data)=>{
-  try{const r=await addDoc(collection(db,'documents'),{...data,createdAt:new Date().toISOString()});return r.id;}
-  catch(e){toast('Save error: '+e.message);throw e;}
-};
-window.FSUPD=async(id,data)=>{
-  try{await updateDoc(doc(db,'documents',id),{...data,updatedAt:new Date().toISOString()});}
-  catch(e){toast('Update error: '+e.message);}
-};
-window.FSDEL=async(id)=>{
-  try{await deleteDoc(doc(db,'documents',id));}catch(e){console.error(e);}
-};
-window.FSMEM=async(id,data)=>{
-  if(data.pin!==undefined)localStorage.setItem('hv_p_'+id,data.pin||'');
-  try{await setDoc(doc(db,'members',id),data,{merge:true});}
-  catch(e){toast('Member save error: '+e.message);}
-};
-window.FSADDMEM=async(data)=>{
-  try{const r=await addDoc(collection(db,'members'),{...data,createdAt:new Date().toISOString()});return r.id;}
-  catch(e){toast('Member add error: '+e.message);throw e;}
-};
-window.FSDELMEM=async(id)=>{
-  try{await deleteDoc(doc(db,'members',id));}catch(e){console.error(e);}
-};
+window.FSADD=async d=>{try{const r=await addDoc(collection(db,'documents'),{...d,createdAt:new Date().toISOString()});return r.id;}catch(e){toast('Save error: '+e.message);throw e;}};
+window.FSUPD=async(id,d)=>{try{await updateDoc(doc(db,'documents',id),{...d,updatedAt:new Date().toISOString()});}catch(e){toast('Update error: '+e.message);}};
+window.FSDEL=async id=>{try{await deleteDoc(doc(db,'documents',id));}catch(e){console.error(e);}};
+window.FSMEM=async(id,d)=>{if(d.pin!==undefined)localStorage.setItem('hv_p_'+id,d.pin||'');try{await setDoc(doc(db,'members',id),d,{merge:true});}catch(e){toast('Member save error: '+e.message);}};
+window.FSADDMEM=async d=>{try{const r=await addDoc(collection(db,'members'),{...d,createdAt:new Date().toISOString()});return r.id;}catch(e){toast('Member add error: '+e.message);throw e;}};
+window.FSDELMEM=async id=>{try{await deleteDoc(doc(db,'members',id));}catch(e){console.error(e);}};
 
 INIT();
 </script>
 
-<!-- ═══════ APP LOGIC ═══════ -->
 <script>
-const EMOJIS=['&#128104;','&#128105;','&#128102;','&#128103;','&#128116;','&#128117;','&#128118;','&#128119;','&#9898;','&#128113;','&#129492;','&#128114;','&#129489;','&#128115;','&#128054;','&#128049;','&#128081;','&#127775;','&#128584;','&#128588;'];
-function buildEmojiPicker(sel){
-  document.getElementById('emojipicker').innerHTML=EMOJIS.map(e=>'<span class="epick'+(e===sel?' sel':'')+'" onclick="PICKEMOJI(\''+e+'\')">'+e+'</span>').join('');
-}
-window.PICKEMOJI=function(e){
-  window.G.pickedEmoji=e;document.getElementById('memoji').value=e;
-  document.querySelectorAll('.epick').forEach(x=>x.classList.remove('sel'));
-  event.target.classList.add('sel');
-};
+// EMOJI PICKER
+const EMOJIS=['&#128104;','&#128105;','&#128102;','&#128103;','&#128116;','&#128117;','&#128118;','&#128119;','&#9898;','&#128113;','&#129492;','&#128114;','&#129489;','&#128115;','&#128054;','&#128049;','&#128081;','&#127775;','&#128584;','&#128588;','&#128274;','&#127891;','&#128081;','&#129489;'];
+function buildEmojiPicker(sel){document.getElementById('emojipicker').innerHTML=EMOJIS.map(e=>'<span class="epick'+(e===sel?' sel':'')+'" onclick="PICKEMOJI(\''+e+'\')">'+e+'</span>').join('');}
+window.PICKEMOJI=function(e){window.G.pickedEmoji=e;document.getElementById('memoji').value=e;document.querySelectorAll('.epick').forEach(x=>x.classList.remove('sel'));event.target.classList.add('sel');};
 
-// ── PIN AUTH ──
+// AGE HELPER — returns "Yy Mm Dd" or partial
+function calcAge(dob){
+  if(!dob)return null;
+  var b=new Date(dob),n=new Date();
+  var y=n.getFullYear()-b.getFullYear(),m=n.getMonth()-b.getMonth(),d=n.getDate()-b.getDate();
+  if(d<0){m--;d+=new Date(n.getFullYear(),n.getMonth(),0).getDate();}
+  if(m<0){y--;m+=12;}
+  if(y>0)return y+'y '+m+'m '+d+'d';
+  if(m>0)return m+'m '+d+'d';
+  return d+'d';
+}
+
+// PIN AUTH — 6 digits
 var _pin='',_sm=null;
 window.RENDERMSEL=function(){
-  const ms=window.G&&window.G.members||[];
+  var ms=window.G&&window.G.members||[];
   if(!ms.length){
     document.getElementById('msel').innerHTML='<div style="grid-column:1/-1;color:var(--mu);font-size:12px;padding:10px 0;">No members yet.</div>';
-    document.getElementById('phint').innerHTML='<span style="cursor:pointer;color:var(--gold);text-decoration:underline;" onclick="FIRSTLOGIN()">First time? Tap here to create Admin</span>';
+    document.getElementById('phint').innerHTML='<span style="cursor:pointer;color:var(--gold);text-decoration:underline;" onclick="FIRSTLOGIN()">First time? Tap to create Admin</span>';
     return;
   }
   document.getElementById('phint').textContent='';
@@ -624,32 +605,21 @@ window.RENDERMSEL=function(){
   SELM(ms[0].id);
 };
 window.FIRSTLOGIN=async function(){
-  const data={name:'Admin',nick:'Admin',emoji:'&#128272;',role:'admin',relation:'Self',
-    pin:'1234',dob:'',blood:'',phone:'',email:'',aadhaar:'',address:{}};
-  try{
-    const id=await window.FSADDMEM(data);
-    data.id=id;window.G.members=[data];
-    localStorage.setItem('hv_p_'+id,'1234');
-    toast('Admin created! Default PIN: 1234');
-    window.RENDERMSEL();
-  }catch(e){toast('Error: '+e.message);}
+  var data={name:'Admin',nick:'Admin',emoji:'&#128272;',role:'admin',relation:'Self',pin:'123456',dob:'',blood:'',phone:'',email:'',aadhaar:'',address:{}};
+  try{var id=await window.FSADDMEM(data);data.id=id;window.G.members=[data];localStorage.setItem('hv_p_'+id,'123456');toast('Admin created! Default PIN: 123456');window.RENDERMSEL();}
+  catch(e){toast('Error: '+e.message);}
 };
-window.SELM=function(id){
-  _sm=id;_pin='';UPD();
-  document.querySelectorAll('.mbtn').forEach(b=>b.classList.remove('sel'));
-  var b=document.getElementById('mb_'+id);if(b)b.classList.add('sel');
-  document.getElementById('perr').textContent='';
-};
-window.PK=function(k){if(_pin.length>=4)return;_pin+=k;UPD();if(_pin.length===4)setTimeout(POK,200);};
+window.SELM=function(id){_sm=id;_pin='';UPD();document.querySelectorAll('.mbtn').forEach(b=>b.classList.remove('sel'));var b=document.getElementById('mb_'+id);if(b)b.classList.add('sel');document.getElementById('perr').textContent='';};
+window.PK=function(k){if(_pin.length>=6)return;_pin+=k;UPD();if(_pin.length===6)setTimeout(POK,200);};
 window.PD=function(){_pin=_pin.slice(0,-1);UPD();};
-function UPD(){for(var i=0;i<4;i++)document.getElementById('pd'+i).className='pd'+(_pin.length>i?' on':'');}
+function UPD(){for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pd'+(_pin.length>i?' on':'');}
 window.POK=async function(){
   if(!_sm){document.getElementById('perr').textContent='Select a member first';return;}
-  if(_pin.length<4){document.getElementById('perr').textContent='Enter 4-digit PIN';return;}
+  if(_pin.length<6){document.getElementById('perr').textContent='Enter 6-digit PIN';return;}
   var m=(window.G.members||[]).find(function(x){return x.id===_sm;});if(!m)return;
-  var storedPin=m.pin||localStorage.getItem('hv_p_'+m.id)||null;
-  if(!storedPin){m.pin=_pin;await window.FSMEM(m.id,{pin:_pin});toast('PIN set for '+(m.nick||m.name));LOGIN(m);}
-  else if(storedPin===_pin){LOGIN(m);}
+  var sp=m.pin||localStorage.getItem('hv_p_'+m.id)||null;
+  if(!sp){m.pin=_pin;await window.FSMEM(m.id,{pin:_pin});toast('PIN set for '+(m.nick||m.name));LOGIN(m);}
+  else if(sp===_pin){LOGIN(m);}
   else{_pin='';UPD();document.getElementById('perr').textContent='Wrong PIN. Try again.';setTimeout(function(){document.getElementById('perr').textContent='';},2000);}
 };
 function LOGIN(m){
@@ -663,18 +633,16 @@ function LOGIN(m){
   document.getElementById('snm').textContent=m.nick||m.name;
   document.getElementById('sbadge').textContent=m.role;
   document.getElementById('sbadge').className='rbadge '+(m.role==='admin'?'rba':m.role==='member'?'rbm':'rbc');
-  // Show Firebase panel for admin only
   document.getElementById('fbstatblock').style.display=m.role==='admin'?'block':'none';
   var h=new Date().getHours();
   document.getElementById('hgreet').textContent=(h<12?'Good morning':h<17?'Good afternoon':'Good evening')+', '+(m.nick||m.name)+' \u{1F44B}';
   document.getElementById('hdate').textContent=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  window.BUILDDROPDOWN();
-  window.RA();
+  window.BUILDDROPDOWN();window.RA();
 }
 window.LOGOUT=function(){window.G.cu=null;_pin='';UPD();document.getElementById('app').style.display='none';document.getElementById('pinsc').style.display='flex';};
 window.CHPIN=async function(){
   var p=document.getElementById('npinput').value.trim();
-  if(!/^\d{4}$/.test(p)){toast('Enter exactly 4 digits');return;}
+  if(!/^\d{6}$/.test(p)){toast('Enter exactly 6 digits');return;}
   var m=(window.G.members||[]).find(function(x){return x.id===window.G.cu.id;});
   if(m){m.pin=p;window.G.cu.pin=p;}
   await window.FSMEM(window.G.cu.id,{pin:p});
@@ -683,18 +651,16 @@ window.CHPIN=async function(){
 window.BUILDDROPDOWN=function(){
   var sel=document.getElementById('fm');
   sel.innerHTML='<option value="">-- Select Member --</option>';
-  (window.G.members||[]).forEach(function(m){
-    sel.innerHTML+='<option value="'+(m.nick||m.name)+'">'+(m.nick||m.name)+(m.name&&m.name!==m.nick?' ('+m.name+')':'')+'</option>';
-  });
+  (window.G.members||[]).forEach(function(m){sel.innerHTML+='<option value="'+(m.nick||m.name)+'">'+(m.nick||m.name)+(m.name&&m.name!==m.nick?' ('+m.name+')':'')+'</option>';});
   sel.innerHTML+='<option value="Family">Family (Shared)</option>';
 };
 
-// ── CONSTANTS ──
+// CONSTANTS
 var CICO={'Aadhaar':'&#128283;','PAN':'&#129689;','Passport':'&#128706;','Birth Certificate':'&#128221;','Voter ID':'&#128499;','Driving Licence':'&#128663;','Insurance':'&#128737;','Vehicle':'&#128664;','Education':'&#127891;','Property':'&#127968;','Ration':'&#129534;','Medical':'&#127973;','Other':'&#128196;'};
 var CCOL={'Aadhaar':'#58a6ff','PAN':'#f1ba53','Passport':'#d4a017','Birth Certificate':'#3fb950','Voter ID':'#3fb950','Driving Licence':'#3fb950','Insurance':'#3fb950','Vehicle':'#f85149','Education':'#a371f7','Property':'#ff801f','Ration':'#8b949e','Medical':'#f85149','Other':'#8b949e'};
 function DF(ds){if(!ds)return null;return Math.round((new Date(ds)-new Date())/86400000);}
 
-// ── RENDER ──
+// RENDER
 window.RA=function(){RS();RR();RHOME();RDL();RMEM();REML();};
 function RS(){
   var d=window.G.docs||[];
@@ -710,14 +676,15 @@ function RR(){
   el.innerHTML=we.slice(0,10).map(function(d){
     var n=DF(d.expiry),pct=Math.max(0,Math.min(1,n/365));
     var col=n<0?'var(--red)':n<=30?'var(--red)':n<=90?'var(--warn)':'var(--ok)';
-    return '<div class="rcard"><div class="rwrap"><svg class="rsvg" width="60" height="60" viewBox="0 0 60 60">'
+    return '<div class="rcard" onclick="OPDET(\''+d.id+'\')">'
+      +'<div class="rwrap"><svg class="rsvg" width="60" height="60" viewBox="0 0 60 60">'
       +'<circle cx="30" cy="30" r="25" fill="none" stroke="var(--bdr)" stroke-width="5"/>'
       +'<circle cx="30" cy="30" r="25" fill="none" stroke="'+col+'" stroke-width="5" stroke-linecap="round" stroke-dasharray="'+(C*pct)+' '+C+'"/>'
       +'</svg><div class="rl"><span class="rln" style="color:'+col+'">'+(n<0?'!':n)+'</span><span class="rlu">'+(n<0?'exp':'days')+'</span></div></div>'
       +'<div class="rcn">'+d.name+'</div><div class="rco">'+(d.member||'')+'</div></div>';
   }).join('');
 }
-function DHTML(d){
+function DHTML(d,clickable){
   var n=DF(d.expiry),col=CCOL[d.category]||'#8b949e';
   var eb='';
   if(d.expiry&&n!==null){var bc=n<0?'var(--red)':n<=30?'var(--red)':n<=90?'var(--warn)':'var(--ok)';eb='<span class="ebadge" style="background:'+bc+'22;color:'+bc+';">'+(n<0?'Expired':n+'d')+'</span>';}
@@ -727,28 +694,41 @@ function DHTML(d){
     +'<div class="dii"><div class="din">'+d.name+'</div><div class="dim">'+(d.member||'')+' &middot; '+(d.category||'')+'</div></div>'
     +'<div class="dir"><span class="ctag" style="background:'+col+'22;color:'+col+';">'+(d.category||'Doc')+'</span>'+eb+'</div></div>';
 }
+// Member card — full info
+function MHTML(m,clickable){
+  var cnt=(window.G.docs||[]).filter(function(d){return d.member===(m.nick||m.name);}).length;
+  var age=calcAge(m.dob);
+  var onclick=clickable?'OPENM(\''+m.id+'\')':'OPENM(\''+m.id+'\')';
+  return '<div class="mcard" onclick="'+onclick+'">'
+    +'<div class="mc-top"><div class="mc-em">'+m.emoji+'</div>'
+    +'<div class="mc-head"><div class="mcn">'+(m.nick||m.name)+'</div><div class="mcrl">'+(m.relation||'')+'</div></div></div>'
+    +'<div class="mc-info">'
+    +(m.blood?'<div class="mc-row">&#129656; <strong>'+m.blood+'</strong></div>':'')
+    +(age?'<div class="mc-row">&#128197; <strong>'+age+'</strong></div>':'')
+    +(m.phone?'<div class="mc-row">&#128241; <strong>'+m.phone+'</strong></div>':'')
+    +'</div>'
+    +'<div class="mc-bot"><span class="rbadge '+(m.role==='admin'?'rba':m.role==='member'?'rbm':'rbc')+'">'+m.role+'</span>'
+    +'<span style="font-size:11px;color:var(--mu);">&#128196; '+cnt+'</span></div></div>';
+}
 function RHOME(){
-  var el=document.getElementById('hrecent'),docs=(window.G.docs||[]).slice(0,6);
-  el.innerHTML=docs.length?docs.map(DHTML).join(''):'<div class="empty"><div class="ei">&#128194;</div><h3>No documents yet</h3><p>Tap + to add your first document</p></div>';
+  var el=document.getElementById('hrecent'),docs=(window.G.docs||[]).slice(0,5);
+  el.innerHTML=docs.length?docs.map(function(d){return DHTML(d,true);}).join(''):'<div class="empty"><div class="ei">&#128194;</div><h3>No documents yet</h3><p>Tap + to add your first document</p></div>';
+  // Home members preview
+  var hm=document.getElementById('hmembers');
+  var ms=(window.G.members||[]).slice(0,4);
+  hm.innerHTML=ms.map(function(m){return MHTML(m,true);}).join('');
 }
 function RDL(){
   var s=(document.getElementById('dsearch')&&document.getElementById('dsearch').value||'').toLowerCase();
   var docs=window.G.docs||[];
   if(window.G.cf!=='All')docs=docs.filter(function(d){return d.category===window.G.cf;});
   if(s)docs=docs.filter(function(d){return(d.name||'').toLowerCase().includes(s)||(d.member||'').toLowerCase().includes(s)||(d.number||'').toLowerCase().includes(s);});
-  document.getElementById('dlist').innerHTML=docs.length?docs.map(DHTML).join(''):'<div class="empty"><div class="ei">&#128269;</div><h3>Nothing found</h3></div>';
+  document.getElementById('dlist').innerHTML=docs.length?docs.map(function(d){return DHTML(d,true);}).join(''):'<div class="empty"><div class="ei">&#128269;</div><h3>Nothing found</h3></div>';
 }
 window.SF=function(f,btn){window.G.cf=f;document.querySelectorAll('.chip').forEach(function(b){b.classList.remove('act');});btn.classList.add('act');RDL();};
 function RMEM(){
   var isAdmin=window.G.cu&&window.G.cu.role==='admin';
-  var html=(window.G.members||[]).map(function(m){
-    var cnt=(window.G.docs||[]).filter(function(d){return d.member===(m.nick||m.name);}).length;
-    return '<div class="mcard" onclick="OPENM(\''+m.id+'\')">'
-      +'<div class="mce">'+m.emoji+'</div><div class="mcn">'+(m.nick||m.name)+'</div>'
-      +'<div class="mcrl">'+(m.relation||'')+'</div>'
-      +'<span class="rbadge '+(m.role==='admin'?'rba':m.role==='member'?'rbm':'rbc')+'">'+m.role+'</span>'
-      +'<div style="font-size:11px;color:var(--mu);margin-top:6px;">&#128196; '+cnt+' docs</div></div>';
-  }).join('');
+  var html=(window.G.members||[]).map(function(m){return MHTML(m,true);}).join('');
   if(isAdmin)html+='<div class="mcard add-card" onclick="OPENNEWMEM()"><div style="font-size:28px;margin-bottom:6px;">+</div><div style="font-size:13px;font-weight:700;color:var(--mu);">Add Member</div></div>';
   document.getElementById('mgrid').innerHTML=html;
 }
@@ -760,14 +740,15 @@ function REML(){
     var n=DF(d.expiry),col=n<0?'var(--red)':n<=30?'var(--red)':n<=90?'var(--warn)':'var(--ok)';
     var lbl=n<0?'EXPIRED':n===0?'TODAY':n+' days';
     var ico=n<0?'&#9940;':n<=7?'&#128680;':n<=30?'&#9888;':'&#9989;';
-    return '<div class="remi"><div class="rebar" style="background:'+col+';"></div>'
+    return '<div class="remi" onclick="OPDET(\''+d.id+'\')" style="cursor:pointer;">'
+      +'<div class="rebar" style="background:'+col+';"></div>'
       +'<div class="reinfo"><div class="retn">'+d.name+'</div>'
       +'<div class="retd">'+(d.member||'')+' &middot; Expires '+new Date(d.expiry).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})+' '+ico+'</div></div>'
       +'<div class="red" style="color:'+col+';">'+lbl+'</div></div>';
   }).join('');
 }
 
-// ── NAV ──
+// NAV
 window.SP=function(p){
   document.querySelectorAll('.page').forEach(function(e){e.classList.remove('act');});
   document.querySelectorAll('.bi').forEach(function(e){e.classList.remove('act');});
@@ -776,36 +757,59 @@ window.SP=function(p){
   document.getElementById('fab').style.display=(p==='settings'||p==='reminders')?'none':'flex';
 };
 
-// ── SCAN ──
-document.getElementById('fscan').addEventListener('change',async function(e){
-  var file=e.target.files[0];if(!file)return;
-  var prog=document.getElementById('uprog'),pf=document.getElementById('uprogf'),st=document.getElementById('scanstat'),prev=document.getElementById('scanprev');
-  prog.style.display='block';pf.style.width='30%';st.textContent='Processing...';
-  try{
-    var dataUrl=await new Promise(function(res,rej){
-      var img=new Image(),r=new FileReader();
-      r.onload=function(ev){img.onload=function(){
+// SCAN — three inputs
+function processScan(file){
+  return new Promise(function(res,rej){
+    // PDF: store as base64 text, no image preview
+    if(file.type==='application/pdf'){
+      var r=new FileReader();
+      r.onload=function(ev){res({data:ev.target.result,isPDF:true,size:Math.round(ev.target.result.length/1024)});};
+      r.onerror=rej;r.readAsDataURL(file);
+      return;
+    }
+    // Image: compress
+    var img=new Image(),r=new FileReader();
+    r.onload=function(ev){
+      img.onload=function(){
         var c=document.createElement('canvas'),w=img.width,h=img.height,q=0.82,mx=1400;
         if(w>mx||h>mx){var sc=Math.min(mx/w,mx/h);w=Math.round(w*sc);h=Math.round(h*sc);}
         c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
         var u=c.toDataURL('image/jpeg',q);
         while(u.length/1024>600&&q>0.2){q-=0.1;u=c.toDataURL('image/jpeg',q);}
-        res(u);
-      };img.onerror=rej;img.src=ev.target.result;};
-      r.onerror=rej;r.readAsDataURL(file);
-    });
-    pf.style.width='100%';window.G.scan=dataUrl;
-    prev.src=dataUrl;prev.style.display='block';
-    st.textContent='Ready ('+Math.round(dataUrl.length/1024)+' KB)';
+        res({data:u,isPDF:false,size:Math.round(u.length/1024)});
+      };img.onerror=rej;img.src=ev.target.result;
+    };r.onerror=rej;r.readAsDataURL(file);
+  });
+}
+async function handleScanFile(file){
+  if(!file)return;
+  var prog=document.getElementById('uprog'),pf=document.getElementById('uprogf'),st=document.getElementById('scanstat'),prev=document.getElementById('scanprev'),clr=document.getElementById('scanclear');
+  prog.style.display='block';pf.style.width='30%';st.textContent='Processing...';
+  try{
+    var r=await processScan(file);
+    pf.style.width='100%';
+    window.G.scan=r.data;
+    if(!r.isPDF){prev.src=r.data;prev.style.display='block';}
+    else{prev.style.display='none';}
+    st.textContent=(r.isPDF?'&#128196; PDF':'&#128247; Image')+' attached ('+r.size+' KB)';
+    clr.style.display='block';
     setTimeout(function(){prog.style.display='none';pf.style.width='0%';},600);
-  }catch(err){st.textContent='Failed: '+err.message;prog.style.display='none';}
-  e.target.value='';
+  }catch(e){st.textContent='Failed: '+e.message;prog.style.display='none';}
+}
+['fscan-cam','fscan-gal','fscan-file'].forEach(function(id){
+  document.getElementById(id).addEventListener('change',async function(e){await handleScanFile(e.target.files[0]);e.target.value='';});
 });
+window.CLEARSCAN=function(){
+  window.G.scan='';
+  document.getElementById('scanprev').style.display='none';document.getElementById('scanprev').src='';
+  document.getElementById('scanstat').textContent='';document.getElementById('scanclear').style.display='none';
+};
 
-// ── DOC CRUD ──
+// DOC CRUD
 window.OPENDOC=function(){
   window.G.scan='';document.getElementById('adtitle').textContent='Add Document';document.getElementById('editid').value='';
-  document.getElementById('scanprev').style.display='none';document.getElementById('scanprev').src='';document.getElementById('scanstat').textContent='';
+  document.getElementById('scanprev').style.display='none';document.getElementById('scanprev').src='';
+  document.getElementById('scanstat').textContent='';document.getElementById('scanclear').style.display='none';
   ['fn','fexp','fiss','fnum','fauth','floc','fnotes'].forEach(function(id){document.getElementById(id).value='';});
   document.getElementById('fc').value='';document.getElementById('fm').value='';
   window.BUILDDROPDOWN();document.getElementById('m-adddoc').classList.add('open');
@@ -814,16 +818,16 @@ window.SAVEDOC=async function(){
   var name=document.getElementById('fn').value.trim(),cat=document.getElementById('fc').value,mem=document.getElementById('fm').value;
   if(!name||!cat||!mem){toast('Name, Category and Member required');return;}
   var btn=document.getElementById('savebtn');btn.textContent='Saving...';btn.disabled=true;
-  var data={name:name,category:cat,member:mem,expiry:document.getElementById('fexp').value,issued:document.getElementById('fiss').value,
-    number:document.getElementById('fnum').value.trim(),authority:document.getElementById('fauth').value.trim(),
-    location:document.getElementById('floc').value.trim(),notes:document.getElementById('fnotes').value.trim(),
-    addedBy:window.G.cu&&(window.G.cu.nick||window.G.cu.name)||'',scanData:window.G.scan||''};
+  var data={name:name,category:cat,member:mem,expiry:document.getElementById('fexp').value,
+    issued:document.getElementById('fiss').value,number:document.getElementById('fnum').value.trim(),
+    authority:document.getElementById('fauth').value.trim(),location:document.getElementById('floc').value.trim(),
+    notes:document.getElementById('fnotes').value.trim(),addedBy:window.G.cu&&(window.G.cu.nick||window.G.cu.name)||'',
+    scanData:window.G.scan||''};
   var eid=document.getElementById('editid').value;
   try{
     if(eid){await window.FSUPD(eid,data);toast('Document updated');}
     else{await window.FSADD(data);toast('Saved to Firebase');}
     CM('m-adddoc');
-    // No need to update local array — onSnapshot will push the update automatically
   }catch(e){toast('Error: '+e.message);}
   finally{btn.textContent='&#128190; Save Document';btn.disabled=false;}
 };
@@ -831,7 +835,11 @@ window.OPDET=function(id){
   var d=(window.G.docs||[]).find(function(x){return x.id===id;});if(!d)return;
   window.G.vid=id;
   var sw=document.getElementById('detscanwrap'),si=document.getElementById('detscanimg');
-  if(d.scanData&&d.scanData.startsWith('data:image')){si.src=d.scanData;sw.style.display='block';}else{sw.style.display='none';}
+  if(d.scanData&&d.scanData.startsWith('data:image')){si.src=d.scanData;sw.style.display='block';}
+  else if(d.scanData&&d.scanData.startsWith('data:application/pdf')){
+    sw.innerHTML='<div style="background:rgba(248,81,73,.1);border:1px solid rgba(248,81,73,.3);border-radius:10px;padding:16px;text-align:center;margin-bottom:6px;"><div style="font-size:32px;">&#128196;</div><div style="font-size:13px;font-weight:600;margin-top:6px;">PDF Document Attached</div></div><button class="bline" onclick="FULLSCAN()" style="margin-top:0;">&#11015; Download / View PDF</button>';
+    sw.style.display='block';
+  }else{sw.style.display='none';}
   document.getElementById('det-ico').innerHTML=CICO[d.category]||'&#128196;';
   document.getElementById('det-nm').textContent=d.name;
   var fields=[['Category',d.category],['Belongs To',d.member],['Doc Number',d.number||'&#8212;'],
@@ -840,12 +848,14 @@ window.OPDET=function(id){
     ['Authority',d.authority||'&#8212;'],['Physical Location',d.location||'&#8212;'],
     ['Notes',d.notes||'&#8212;'],['Added By',d.addedBy||'&#8212;'],['Scan',d.scanData?'&#9989; Attached':'&#8212;']];
   document.getElementById('det-rows').innerHTML=fields.map(function(f){return '<div class="drow"><span class="drl">'+f[0]+'</span><span class="drv">'+f[1]+'</span></div>';}).join('');
-  document.getElementById('det-acts').style.display=window.G.cu&&window.G.cu.role==='admin'?'flex':'none';
+  document.getElementById('det-acts').style.display=window.G.cu&&window.G.cu.role!=='child'?'flex':'none';
   document.getElementById('m-detail').classList.add('open');
 };
 window.FULLSCAN=function(){
   var d=(window.G.docs||[]).find(function(x){return x.id===window.G.vid;});if(!d||!d.scanData)return;
-  var w=window.open('','_blank');w.document.write('<html><body style="margin:0;background:#000;"><img src="'+d.scanData+'" style="max-width:100%;display:block;margin:auto;"/></body></html>');
+  var a=document.createElement('a');a.href=d.scanData;
+  a.download=(d.name||'document')+(d.scanData.startsWith('data:application/pdf')?'.pdf':'.jpg');
+  a.click();
 };
 window.EDITDOC=function(){
   var id=window.G.vid,d=(window.G.docs||[]).find(function(x){return x.id===id;});if(!d)return;
@@ -856,17 +866,18 @@ window.EDITDOC=function(){
   document.getElementById('fiss').value=d.issued||'';document.getElementById('fnum').value=d.number||'';
   document.getElementById('fauth').value=d.authority||'';document.getElementById('floc').value=d.location||'';
   document.getElementById('fnotes').value=d.notes||'';
-  var prev=document.getElementById('scanprev');
-  if(d.scanData&&d.scanData.startsWith('data:image')){prev.src=d.scanData;prev.style.display='block';document.getElementById('scanstat').textContent='Existing scan attached';}
-  else{prev.style.display='none';document.getElementById('scanstat').textContent='';}
+  var prev=document.getElementById('scanprev'),clr=document.getElementById('scanclear');
+  if(d.scanData&&d.scanData.startsWith('data:image')){prev.src=d.scanData;prev.style.display='block';clr.style.display='block';document.getElementById('scanstat').textContent='Existing scan attached';}
+  else if(d.scanData){document.getElementById('scanstat').textContent='File attached';clr.style.display='block';prev.style.display='none';}
+  else{prev.style.display='none';clr.style.display='none';document.getElementById('scanstat').textContent='';}
   window.BUILDDROPDOWN();document.getElementById('m-adddoc').classList.add('open');
 };
 window.DELDOC=async function(){
-  if(!confirm('Delete this document? Cannot be undone.'))return;
-  var id=window.G.vid;await window.FSDEL(id);CM('m-detail');toast('Deleted');
+  if(!confirm('Delete this document?'))return;
+  await window.FSDEL(window.G.vid);CM('m-detail');toast('Deleted');
 };
 
-// ── MEMBER MANAGEMENT ──
+// MEMBER MANAGEMENT
 window.OPENNEWMEM=function(){
   window.G.editMemId=null;document.getElementById('addmtitle').textContent='Add Family Member';document.getElementById('editmemid').value='';
   ['mname','mnick','mrel','mdob','mphone','memail','maadhaar','mhouse','mvillage','mtaluk','mdist','mpincode','mpin'].forEach(function(id){document.getElementById(id).value='';});
@@ -874,17 +885,19 @@ window.OPENNEWMEM=function(){
   window.G.pickedEmoji='&#128104;';buildEmojiPicker('&#128104;');
   document.getElementById('m-addmem').classList.add('open');
 };
+window.OPENMYPROFILE=function(){
+  if(window.G.cu)OPENM(window.G.cu.id);
+};
 window.SAVEMEM=async function(){
   var name=document.getElementById('mname').value.trim(),nick=document.getElementById('mnick').value.trim(),rel=document.getElementById('mrel').value.trim();
   if(!name||!nick||!rel){toast('Name, Nickname and Relation required');return;}
   var btn=document.getElementById('savemembtn');btn.textContent='Saving...';btn.disabled=true;
   var pin=document.getElementById('mpin').value.trim();
   var eid=document.getElementById('editmemid').value;
-  var existingPin=eid?((window.G.members||[]).find(function(m){return m.id===eid;})||{}).pin||localStorage.getItem('hv_p_'+eid)||null:null;
+  var existPin=eid?((window.G.members||[]).find(function(m){return m.id===eid;})||{}).pin||localStorage.getItem('hv_p_'+eid)||null:null;
   var data={name:name,nick:nick,emoji:window.G.pickedEmoji||'&#128104;',
     relation:rel,role:document.getElementById('mrole').value,
-    pin:pin||existingPin||null,
-    dob:document.getElementById('mdob').value,blood:document.getElementById('mblood').value,
+    pin:pin||existPin||null,dob:document.getElementById('mdob').value,blood:document.getElementById('mblood').value,
     phone:document.getElementById('mphone').value.trim(),email:document.getElementById('memail').value.trim(),
     aadhaar:document.getElementById('maadhaar').value.trim(),
     address:{house:document.getElementById('mhouse').value.trim(),village:document.getElementById('mvillage').value.trim(),
@@ -894,7 +907,6 @@ window.SAVEMEM=async function(){
     if(eid){await window.FSMEM(eid,data);if(pin)localStorage.setItem('hv_p_'+eid,pin);toast('Member updated');}
     else{var id=await window.FSADDMEM(data);if(pin)localStorage.setItem('hv_p_'+id,pin);toast('Member added');}
     CM('m-addmem');
-    // onSnapshot will auto-update window.G.members
   }catch(e){toast('Error: '+e.message);}
   finally{btn.textContent='&#128190; Save Member';btn.disabled=false;}
 };
@@ -907,12 +919,10 @@ window.OPENM=function(id){
   document.getElementById('mpbadge').textContent=m.role;
   document.getElementById('mpbadge').className='rbadge '+(m.role==='admin'?'rba':m.role==='member'?'rbm':'rbc');
   document.getElementById('mppname').textContent=m.nick||m.name;
-  var a=m.address||{};
-  var astr=[a.house,a.village,a.taluk,a.district,a.state,a.pincode].filter(Boolean).join(', ');
-  var age='';
-  if(m.dob){var diff=Date.now()-new Date(m.dob).getTime();age=' (Age '+Math.floor(diff/31557600000)+')';}
+  var a=m.address||{},astr=[a.house,a.village,a.taluk,a.district,a.state,a.pincode].filter(Boolean).join(', ');
+  var age=calcAge(m.dob);
   var fds=[
-    ['&#128197;','Date of Birth',m.dob?new Date(m.dob).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})+age:'&#8212;'],
+    ['&#128197;','Date of Birth',m.dob?new Date(m.dob).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})+(age?' (Age: '+age+')':''):'&#8212;'],
     ['&#129656;','Blood Group',m.blood||'&#8212;'],['&#128241;','Phone',m.phone||'&#8212;'],
     ['&#128231;','Email',m.email||'&#8212;'],
     ['&#128283;','Aadhaar',m.aadhaar?m.aadhaar.replace(/\s/g,'').replace(/(\d{4})/g,'$1 ').trim():'&#8212;'],
@@ -923,7 +933,13 @@ window.OPENM=function(id){
   var cnt=(window.G.docs||[]).filter(function(d){return d.member===(m.nick||m.name);}).length;
   document.getElementById('mpdcnt').textContent=cnt+' document'+(cnt!==1?'s':'');
   document.getElementById('mpnpin').value='';
-  document.getElementById('mp-adminsec').style.display=window.G.cu&&window.G.cu.role==='admin'?'block':'none';
+  // All roles can edit own profile
+  var isOwn=window.G.cu&&window.G.cu.id===id;
+  var isAdmin=window.G.cu&&window.G.cu.role==='admin';
+  document.getElementById('mp-editown').style.display=(isOwn||isAdmin)?'block':'none';
+  document.getElementById('mp-adminsec').style.display=isAdmin&&!isOwn?'block':'none';
+  // If admin is viewing own profile, show admin section too (for PIN change)
+  if(isAdmin&&isOwn){document.getElementById('mp-adminsec').style.display='none';} // own PIN in settings
   document.getElementById('m-member').classList.add('open');
 };
 window.EDITMEMP=function(){
@@ -939,19 +955,21 @@ window.EDITMEMP=function(){
   document.getElementById('mtaluk').value=a.taluk||'';document.getElementById('mdist').value=a.district||'';
   document.getElementById('mstate').value=a.state||'Karnataka';document.getElementById('mpincode').value=a.pincode||'';
   document.getElementById('mpin').value='';
+  // Non-admin cannot change role
+  var isAdmin=window.G.cu&&window.G.cu.role==='admin';
+  document.getElementById('mrole').disabled=!isAdmin;
   window.G.pickedEmoji=m.emoji||'&#128104;';buildEmojiPicker(m.emoji||'&#128104;');
   document.getElementById('m-addmem').classList.add('open');
 };
 window.RESETPIN=async function(){
   var id=window.G.vmid,p=document.getElementById('mpnpin').value.trim();
-  if(!/^\d{4}$/.test(p)){toast('Enter exactly 4 digits');return;}
+  if(!/^\d{6}$/.test(p)){toast('Enter exactly 6 digits');return;}
   var m=(window.G.members||[]).find(function(x){return x.id===id;});if(!m)return;
-  m.pin=p;await window.FSMEM(id,{pin:p});
-  document.getElementById('mpnpin').value='';toast('PIN reset for '+(m.nick||m.name));
+  m.pin=p;await window.FSMEM(id,{pin:p});document.getElementById('mpnpin').value='';toast('PIN reset for '+(m.nick||m.name));
 };
 window.DELETEMEM=async function(){
   var id=window.G.vmid,m=(window.G.members||[]).find(function(x){return x.id===id;});if(!m)return;
-  if(!confirm('Delete member "'+(m.nick||m.name)+'"? Their documents remain but unlinked.'))return;
+  if(!confirm('Delete member "'+(m.nick||m.name)+'"? Documents remain but unlinked.'))return;
   await window.FSDELMEM(id);CM('m-member');toast('Member deleted');
 };
 window.VIEWMDOCS=function(){
@@ -959,7 +977,7 @@ window.VIEWMDOCS=function(){
   CM('m-member');document.getElementById('dsearch').value=m.nick||m.name;RDL();SP('docs');
 };
 
-// ── UTILS ──
+// UTILS
 window.CPRULES=function(){navigator.clipboard&&navigator.clipboard.writeText(document.getElementById('rulepre').textContent).catch(function(){});toast('Rules copied');};
 window.CM=function(id){var el=document.getElementById(id);if(el)el.classList.remove('open');};
 document.querySelectorAll('.movo').forEach(function(o){o.addEventListener('click',function(e){if(e.target===o)o.classList.remove('open');});});
